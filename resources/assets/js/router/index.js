@@ -8,6 +8,15 @@ const routes = [
         path: '/auth/register',
         name: 'Register',
         component: require('../views/auth/Register')
+    },
+    {
+        path: '/',
+        name: 'Home',
+        component: require('../views/Home')
+    },
+    {
+        path: '*',
+        redirect: '/'
     }
 ]
 
