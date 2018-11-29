@@ -9,18 +9,24 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a href="/" class="navbar-brand">
+                <router-link to="/" class="navbar-brand">
                     <span class="title">{{ logo.title }}</span>
                     <img :src="logo.src" :alt="logo.title">
-                </a>
+                </router-link>
             </div>
 
             <div id="top-navbar-collapse" :class="['collapse', 'navbar-collapse', { in: showCollapsedNav }]">
+                <!-- 导航分类 -->
                 <ul class="nav navbar-nav">
                     <li v-for="(category, index) in categories" :class="{active: index === activeCategoryIndex}">
                         <a href="#" @click="changeCategoryIndex(index)">{{ category }}</a>
                     </li>
                 </ul>
+
+                <!-- 入口组件 -->
+                <div class="navbar-right">
+                    <TheEntry/>
+                </div>
             </div>
         </div>
     </div>
@@ -28,9 +34,13 @@
 
 <script>
     import {mapState} from 'vuex'
+    import TheEntry from './TheEntry'
 
     export default {
         name: "TheHeader",
+        components: {
+            TheEntry,
+        },
         data() {
             return {
                 logo: {
