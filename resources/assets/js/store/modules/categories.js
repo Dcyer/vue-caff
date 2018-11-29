@@ -7,7 +7,7 @@ export default {
     actions: {
         getCategories({commit}) {
             api.getCategories().then(response => {
-                commit('SETCATEGORIES', response.data)
+                commit('SETCATEGORIES', response.data.categories)
             })
         }
     },

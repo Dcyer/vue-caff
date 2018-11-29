@@ -43,14 +43,21 @@
                                 name="password_confirmation" type="password" class="form-control" placeholder="请填写确认密码">
                         <span class="help-block" v-show="errors.has('password_confirmation')">{{ errors.first('password_confirmation') }}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" :class="{'has-error': errors.has('captcha_code')}">
                         <label class="control-label">图片验证码</label>
-                        <input type="text" class="form-control" placeholder="请填写验证码">
+                        <input
+                                v-model="captcha_code"
+                                v-validate="'required'"
+                                data-vv-as="图片验证码"
+                                name="captcha_code" type="text" class="form-control" placeholder="请填写验证码">
+                        <span class="help-block" v-show="errors.has('captcha_code')">{{ errors.first('captcha_code') }}</span>
                     </div>
-                    <div class="thumbnail" title="点击图片重新获取验证码">
-                        <div class="captcha"></div>
+                    <div class="thumbnail" title="点击图片重新获取验证码" @click="getCaptcha">
+                        <div class="captcha vcenter">
+                            <img :src="captcha_image_content" id="captcha">
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-lg btn-success btn-block">
+                    <button type="submit" class="btn btn-lg btn-success btn-block" @click="register">
                         <i class="fa fa-btn fa-sign-in"></i> 注册
                     </button>
                 </div>
@@ -70,7 +77,49 @@
                 password_confirmation: '',
                 captcha_code: '',
                 captcha_key: '',
+                captcha_image_content: ''
             }
+        },
+        created() {
+            this.getCaptcha()
+        },
+        methods: {
+            // 获取验证码
+            getCaptcha() {
+                this.$store.dispatch('postCaptchas').then(response => {
+                    let captchas = this.$ls.getItem('captchas')
+                    this.captcha_key = captchas.captcha_key
+                    this.captcha_image_content = captchas.captcha_image_content
+                })
+            },
+            // 注册按钮点击事件
+            register() {
+                this.$validator.validate().then(result => {
+                    if (result) {
+                        const params = {
+                            name: this.name,
+                            email: this.email,
+                            password: this.password,
+                            password_confirmation: this.password_confirmation,
+                            captcha_code: this.captcha_code,
+                            captcha_key: this.captcha_key,
+                        }
+
+                        this.$store.dispatch('postUsers', params).then(response => {
+                            this.$router.push('/auth/login')
+                        }).catch(error => {
+                            this.getCaptcha()
+                            if (error.response.status === 422) {
+                                for (let item in error.response.data.errors) {
+                                    this.$validator.errors.add({field: item, msg: error.response.data.errors[item][0]});
+                                }
+                            } else if (error.response.status === 401) {
+                                this.$validator.errors.add({field: 'captcha_code', msg: error.response.data.message});
+                            }
+                        })
+                    }
+                });
+            },
         },
     }
 </script>
@@ -85,5 +134,15 @@
     .thumbnail .captcha {
         height: 46px;
         background: #E1E6E8;
+    }
+
+    .captcha {
+        font-size: 24px;
+        font-weight: bold;
+        user-select: none;
+    }
+
+    #captcha {
+        width: 100%;
     }
 </style>

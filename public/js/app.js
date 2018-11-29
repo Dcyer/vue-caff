@@ -979,6 +979,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vee_validate_dist_locale_zh_CN__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vee_validate_dist_locale_zh_CN___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vee_validate_dist_locale_zh_CN__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vee_validate__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_localStorage__ = __webpack_require__(94);
 __webpack_require__(11);
 
 window.Vue = __webpack_require__(35);
@@ -988,9 +989,11 @@ window.Vue = __webpack_require__(35);
 
 
 
+
 Vue.use(__WEBPACK_IMPORTED_MODULE_4_vee_validate__["b" /* default */]);
 __WEBPACK_IMPORTED_MODULE_4_vee_validate__["a" /* Validator */].localize('zh_CN', __WEBPACK_IMPORTED_MODULE_3_vee_validate_dist_locale_zh_CN___default.a);
 
+Vue.prototype.$ls = __WEBPACK_IMPORTED_MODULE_5__utils_localStorage__["a" /* default */];
 Vue.config.productionTip = false;
 
 new Vue({
@@ -43963,7 +43966,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v(_vm._s(category))]
+                    [_vm._v(_vm._s(category.name))]
                   )
                 ]
               )
@@ -47080,6 +47083,10 @@ if (inBrowser && window.Vue) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_categories__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_captchas__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_users__ = __webpack_require__(95);
+
+
 
 
 
@@ -47089,7 +47096,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     modules: {
-        categories: __WEBPACK_IMPORTED_MODULE_2__modules_categories__["a" /* default */]
+        categories: __WEBPACK_IMPORTED_MODULE_2__modules_categories__["a" /* default */],
+        captchas: __WEBPACK_IMPORTED_MODULE_3__modules_captchas__["a" /* default */],
+        users: __WEBPACK_IMPORTED_MODULE_4__modules_users__["a" /* default */]
     }
 }));
 
@@ -48055,7 +48064,7 @@ var index_esm = {
             var commit = _ref.commit;
 
             __WEBPACK_IMPORTED_MODULE_0__api_category__["a" /* default */].getCategories().then(function (response) {
-                commit('SETCATEGORIES', response.data);
+                commit('SETCATEGORIES', response.data.categories);
             });
         }
     },
@@ -48080,9 +48089,11 @@ var index_esm = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
+var API_URL = 'http://dcynsd.test/api/';
+
 /* harmony default export */ __webpack_exports__["a"] = ({
     getCategories: function getCategories() {
-        return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://dcynsd.test/api/v1/categories');
+        return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(API_URL + 'categories');
     }
 });
 
@@ -48339,7 +48350,7 @@ exports = module.exports = __webpack_require__(41)(false);
 
 
 // module
-exports.push([module.i, "\n.thumbnail[data-v-4d06c0b2] {\n    width: 170px;\n    margin-top: 10px;\n    cursor: pointer;\n}\n.thumbnail .captcha[data-v-4d06c0b2] {\n    height: 46px;\n    background: #E1E6E8;\n}\n", ""]);
+exports.push([module.i, "\n.thumbnail[data-v-4d06c0b2] {\n    width: 170px;\n    margin-top: 10px;\n    cursor: pointer;\n}\n.thumbnail .captcha[data-v-4d06c0b2] {\n    height: 46px;\n    background: #E1E6E8;\n}\n.captcha[data-v-4d06c0b2] {\n    font-size: 24px;\n    font-weight: bold;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n}\n#captcha[data-v-4d06c0b2] {\n    width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -48411,6 +48422,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Register',
@@ -48421,8 +48439,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             password: '',
             password_confirmation: '',
             captcha_code: '',
-            captcha_key: ''
+            captcha_key: '',
+            captcha_image_content: ''
         };
+    },
+    created: function created() {
+        this.getCaptcha();
+    },
+
+    methods: {
+        // 获取验证码
+        getCaptcha: function getCaptcha() {
+            var _this = this;
+
+            this.$store.dispatch('postCaptchas').then(function (response) {
+                var captchas = _this.$ls.getItem('captchas');
+                _this.captcha_key = captchas.captcha_key;
+                _this.captcha_image_content = captchas.captcha_image_content;
+            });
+        },
+
+        // 注册按钮点击事件
+        register: function register() {
+            var _this2 = this;
+
+            this.$validator.validate().then(function (result) {
+                if (result) {
+                    var params = {
+                        name: _this2.name,
+                        email: _this2.email,
+                        password: _this2.password,
+                        password_confirmation: _this2.password_confirmation,
+                        captcha_code: _this2.captcha_code,
+                        captcha_key: _this2.captcha_key
+                    };
+
+                    _this2.$store.dispatch('postUsers', params).then(function (response) {
+                        _this2.$router.push('/auth/login');
+                    }).catch(function (error) {
+                        _this2.getCaptcha();
+                        if (error.response.status === 422) {
+                            for (var item in error.response.data.errors) {
+                                _this2.$validator.errors.add({ field: item, msg: error.response.data.errors[item][0] });
+                            }
+                        } else if (error.response.status === 401) {
+                            _this2.$validator.errors.add({ field: 'captcha_code', msg: error.response.data.message });
+                        }
+                    });
+                }
+            });
+        }
     }
 });
 
@@ -48683,11 +48749,96 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(1),
+          _c(
+            "div",
+            {
+              staticClass: "form-group",
+              class: { "has-error": _vm.errors.has("captcha_code") }
+            },
+            [
+              _c("label", { staticClass: "control-label" }, [
+                _vm._v("图片验证码")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.captcha_code,
+                    expression: "captcha_code"
+                  },
+                  {
+                    name: "validate",
+                    rawName: "v-validate",
+                    value: "required",
+                    expression: "'required'"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  "data-vv-as": "图片验证码",
+                  name: "captcha_code",
+                  type: "text",
+                  placeholder: "请填写验证码"
+                },
+                domProps: { value: _vm.captcha_code },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.captcha_code = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.errors.has("captcha_code"),
+                      expression: "errors.has('captcha_code')"
+                    }
+                  ],
+                  staticClass: "help-block"
+                },
+                [_vm._v(_vm._s(_vm.errors.first("captcha_code")))]
+              )
+            ]
+          ),
           _vm._v(" "),
-          _vm._m(2),
+          _c(
+            "div",
+            {
+              staticClass: "thumbnail",
+              attrs: { title: "点击图片重新获取验证码" },
+              on: { click: _vm.getCaptcha }
+            },
+            [
+              _c("div", { staticClass: "captcha vcenter" }, [
+                _c("img", {
+                  attrs: { src: _vm.captcha_image_content, id: "captcha" }
+                })
+              ])
+            ]
+          ),
           _vm._v(" "),
-          _vm._m(3)
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-lg btn-success btn-block",
+              attrs: { type: "submit" },
+              on: { click: _vm.register }
+            },
+            [
+              _c("i", { staticClass: "fa fa-btn fa-sign-in" }),
+              _vm._v(" 注册\n                ")
+            ]
+          )
         ])
       ])
     ])
@@ -48701,45 +48852,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "panel-heading" }, [
       _c("h3", { staticClass: "panel-title" }, [_vm._v("请注册")])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { staticClass: "control-label" }, [_vm._v("图片验证码")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "请填写验证码" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "thumbnail", attrs: { title: "点击图片重新获取验证码" } },
-      [_c("div", { staticClass: "captcha" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-lg btn-success btn-block",
-        attrs: { type: "submit" }
-      },
-      [
-        _c("i", { staticClass: "fa fa-btn fa-sign-in" }),
-        _vm._v(" 注册\n                ")
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -57462,6 +57574,103 @@ var install = VeeValidate$1.install;
 /* harmony default export */ __webpack_exports__["b"] = (VeeValidate$1);
 
 
+
+/***/ }),
+/* 92 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_captcha__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_localStorage__ = __webpack_require__(94);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    actions: {
+        postCaptchas: function postCaptchas(_ref) {
+            var commit = _ref.commit;
+
+            return __WEBPACK_IMPORTED_MODULE_0__api_captcha__["a" /* default */].postCaptchas().then(function (response) {
+                __WEBPACK_IMPORTED_MODULE_1__utils_localStorage__["a" /* default */].setItem('captchas', response.data);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+
+
+var API_URL = 'http://dcynsd.test/api/';
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    postCaptchas: function postCaptchas() {
+        return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(API_URL + 'captchas');
+    }
+});
+
+/***/ }),
+/* 94 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var ls = localStorage;
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    setItem: function setItem(name, value) {
+        ls.setItem(name, JSON.stringify(value));
+    },
+    getItem: function getItem(name) {
+        try {
+            return JSON.parse(ls.getItem(name));
+        } catch (e) {
+            return null;
+        }
+    },
+    removeItem: function removeItem(name) {
+        ls.removeItem(name);
+    }
+});
+
+/***/ }),
+/* 95 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_user__ = __webpack_require__(96);
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    actions: {
+        postUsers: function postUsers(_ref, params) {
+            var commit = _ref.commit;
+
+            return __WEBPACK_IMPORTED_MODULE_0__api_user__["a" /* default */].postUsers(params);
+        }
+    }
+});
+
+/***/ }),
+/* 96 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+
+
+var API_URL = 'http://dcynsd.test/api/';
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    postUsers: function postUsers(params) {
+        return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(API_URL + 'users', params);
+    }
+});
 
 /***/ })
 /******/ ]);

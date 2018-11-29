@@ -19,7 +19,7 @@
                 <!-- 导航分类 -->
                 <ul class="nav navbar-nav">
                     <li v-for="(category, index) in categories" :class="{active: index === activeCategoryIndex}">
-                        <a href="#" @click="changeCategoryIndex(index)">{{ category }}</a>
+                        <a href="#" @click="changeCategoryIndex(index)">{{ category.name }}</a>
                     </li>
                 </ul>
 
