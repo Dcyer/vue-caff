@@ -49035,7 +49035,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
-var API_URL = 'http://dcynsd.test/api/';
+var API_URL = "http://dcynsd.test/api/";
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     getCategories: function getCategories() {
@@ -49074,7 +49074,7 @@ var API_URL = 'http://dcynsd.test/api/';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
-var API_URL = 'http://dcynsd.test/api/';
+var API_URL = "http://dcynsd.test/api/";
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     postCaptchas: function postCaptchas() {
@@ -49109,7 +49109,7 @@ var API_URL = 'http://dcynsd.test/api/';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
-var API_URL = 'http://dcynsd.test/api/';
+var API_URL = "http://dcynsd.test/api/";
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     postUsers: function postUsers(params) {
