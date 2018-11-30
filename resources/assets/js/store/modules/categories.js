@@ -7,12 +7,12 @@ export default {
     actions: {
         getCategories({commit}) {
             api.getCategories().then(response => {
-                commit('SETCATEGORIES', response.data.categories)
+                commit('SET_CATEGORIES', response.data.categories)
             })
         }
     },
     mutations: {
-        SETCATEGORIES(state, categories) {
+        SET_CATEGORIES(state, categories) {
             state.categories = categories
         }
     },

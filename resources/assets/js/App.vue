@@ -18,6 +18,12 @@
             TheHeader,
             TheFooter
         },
+        created() {
+            let jwt = this.$ls.getItem('jwt-token')
+            if (jwt) {
+                this.$store.dispatch('getMe')
+            }
+        }
     }
 </script>
 
