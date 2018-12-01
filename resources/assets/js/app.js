@@ -22,6 +22,23 @@ axios.interceptors.request.use(function (request) {
     return Promise.reject(error)
 })
 
+// 响应拦截
+axios.interceptors.response.use(response => {
+    return response
+}, error => {
+    let jwt = ls.getItem('jwt-token')
+    switch (error.response.status) {
+        case 401:
+            if (jwt) {
+                ls.removeItem('jwt-token')
+                router.push('/auth/login')
+            }
+            break;
+
+    }
+    return Promise.reject(error)
+})
+
 Vue.use(VeeValidate)
 Validator.localize('zh_CN', zh_CN)
 

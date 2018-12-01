@@ -13367,6 +13367,23 @@ __WEBPACK_IMPORTED_MODULE_8_axios___default.a.interceptors.request.use(function 
     return Promise.reject(error);
 });
 
+// 响应拦截
+__WEBPACK_IMPORTED_MODULE_8_axios___default.a.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    var jwt = __WEBPACK_IMPORTED_MODULE_5__utils_localStorage__["a" /* default */].getItem('jwt-token');
+    switch (error.response.status) {
+        case 401:
+            if (jwt) {
+                __WEBPACK_IMPORTED_MODULE_5__utils_localStorage__["a" /* default */].removeItem('jwt-token');
+                __WEBPACK_IMPORTED_MODULE_1__router__["a" /* default */].push('/auth/login');
+            }
+            break;
+
+    }
+    return Promise.reject(error);
+});
+
 Vue.use(__WEBPACK_IMPORTED_MODULE_4_vee_validate__["b" /* default */]);
 __WEBPACK_IMPORTED_MODULE_4_vee_validate__["a" /* Validator */].localize('zh_CN', __WEBPACK_IMPORTED_MODULE_3_vee_validate_dist_locale_zh_CN___default.a);
 
@@ -48524,6 +48541,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                     _this2.$store.dispatch('postUsers', params).then(function (response) {
                         _this2.$router.push('/auth/login');
+                        _this2.$ls.removeItem('captchas');
                     }).catch(function (error) {
                         _this2.getCaptcha();
                         if (error.response.status === 422) {
@@ -49257,7 +49275,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -49290,7 +49308,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         next(function (vm) {
             switch (fromName) {
                 case 'Register':
-                    vm.showMsg('注册成功');
+                    if (localStorage.getItem('jwt-token')) {
+                        vm.showMsg('注册成功');
+                    }
                     break;
             }
         });

@@ -20,7 +20,9 @@
             next(vm => {
                 switch (fromName) {
                     case 'Register':
-                        vm.showMsg('注册成功')
+                        if (localStorage.getItem('jwt-token')) {
+                            vm.showMsg('注册成功')
+                        }
                         break
                 }
             })
