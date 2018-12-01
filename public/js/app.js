@@ -49015,7 +49015,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -49026,6 +49026,16 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -49065,17 +49075,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        login: function login(e) {
+        login: function login() {
             var _this = this;
 
-            var params = {
-                email: this.email,
-                password: this.password
-            };
+            this.$validator.validate().then(function (result) {
+                if (result) {
+                    var params = {
+                        email: _this.email,
+                        password: _this.password
+                    };
 
-            this.$store.dispatch('login', params).then(function (response) {
-                _this.$store.dispatch('getMe');
-                _this.$router.push('/');
+                    _this.$store.dispatch('login', params).then(function (response) {
+                        _this.$store.dispatch('getMe');
+                        _this.$router.push('/');
+                    }).catch(function (error) {
+                        if (error.response.status === 422) {
+                            for (var item in error.response.data.errors) {
+                                _this.$validator.errors.add({ field: item, msg: error.response.data.errors[item][0] });
+                            }
+                        } else if (error.response.status === 401) {
+                            _this.$validator.errors.add({ field: 'password', msg: error.response.data.message });
+                        }
+                    });
+                }
             });
         }
     }
@@ -49095,61 +49117,126 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "panel-body" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { staticClass: "control-label" }, [_vm._v("邮箱")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.email,
-                  expression: "email"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", placeholder: "请填写邮箱" },
-              domProps: { value: _vm.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+          _c(
+            "div",
+            {
+              staticClass: "form-group",
+              class: { "has-error": _vm.errors.has("email") }
+            },
+            [
+              _c("label", { staticClass: "control-label" }, [_vm._v("邮箱")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.email,
+                    expression: "email"
+                  },
+                  {
+                    name: "validate",
+                    rawName: "v-validate",
+                    value: "required|email",
+                    expression: "'required|email'"
                   }
-                  _vm.email = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { staticClass: "control-label" }, [_vm._v("密码")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model.trim",
-                  value: _vm.password,
-                  expression: "password",
-                  modifiers: { trim: true }
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "password", placeholder: "请填写密码" },
-              domProps: { value: _vm.password },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.password = $event.target.value.trim()
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  "data-vv-as": "邮箱",
+                  name: "email",
+                  type: "text",
+                  placeholder: "请填写邮箱"
                 },
-                blur: function($event) {
-                  _vm.$forceUpdate()
+                domProps: { value: _vm.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value
+                  }
                 }
-              }
-            })
-          ]),
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.errors.has("email"),
+                      expression: "errors.has('email')"
+                    }
+                  ],
+                  staticClass: "help-block"
+                },
+                [_vm._v(_vm._s(_vm.errors.first("email")))]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "form-group",
+              class: { "has-error": _vm.errors.has("password") }
+            },
+            [
+              _c("label", { staticClass: "control-label" }, [_vm._v("密码")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.password,
+                    expression: "password"
+                  },
+                  {
+                    name: "validate",
+                    rawName: "v-validate",
+                    value: "required|min:6",
+                    expression: "'required|min:6'"
+                  }
+                ],
+                ref: "password",
+                staticClass: "form-control",
+                attrs: {
+                  "data-vv-as": "密码",
+                  name: "password",
+                  type: "password",
+                  placeholder: "请填写密码"
+                },
+                domProps: { value: _vm.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.password = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.errors.has("password"),
+                      expression: "errors.has('password')"
+                    }
+                  ],
+                  staticClass: "help-block"
+                },
+                [_vm._v(_vm._s(_vm.errors.first("password")))]
+              )
+            ]
+          ),
           _vm._v(" "),
           _c("br"),
           _vm._v(" "),
