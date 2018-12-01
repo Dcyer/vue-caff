@@ -47,7 +47,6 @@
                     src: `${this.uploadsUrl}sites/ByvFbNlQYVwhvTyBgLdqitchoacDNznN.jpg`,
                     title: 'VuejsCaff'
                 },
-                // categories: ['社区', '头条', '问答', '教程'],
                 activeCategoryIndex: 0,
                 showCollapsedNav: false,
             }

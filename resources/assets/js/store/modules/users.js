@@ -23,10 +23,16 @@ export default {
     },
     mutations: {
         SET_ME(state, me) {
+            ls.setItem('me', me)
             state.me = me
         },
         SET_AUTH(state, auth) {
             state.auth = auth
+        }
+    },
+    getters: {
+        getMe(state) {
+            return state.me
         }
     }
 }

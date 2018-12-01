@@ -33,6 +33,9 @@ $api->version('v1', [
         // 当前登录用户信息
         $api->get('user', 'UsersController@me')
             ->name('api.user.show');
+        // 编辑登录用户信息
+        $api->patch('user', 'UsersController@update')
+            ->name('api.user.update');
 
     });
 });

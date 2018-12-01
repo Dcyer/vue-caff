@@ -23,11 +23,23 @@ const routes = [
     {
         path: '*',
         redirect: '/'
-    }
+    },
+    {
+        path: '/users/:id/edit',
+        component: require('../views/users/Edit.vue'),
+        children: [
+            {
+                path: '',
+                name: 'EditProfile',
+                component: require('../views/users/Profile.vue'),
+                meta: {auth: true}
+            }
+        ]
+    },
 ]
 
 const router = new Router({
-    // mode: 'history',
+    linkExactActiveClass: 'active',
     routes,
 })
 
