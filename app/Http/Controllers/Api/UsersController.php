@@ -12,11 +12,12 @@ class UsersController extends Controller
     public function store(UserRequest $request)
     {
         $captchas = \Cache::get($request->captcha_key);
-        \Cache::forget($request->captcha_key);
 
         if (!$captchas) {
             return $this->response->error('验证码已失效', 422);
         }
+
+        \Cache::forget($request->captcha_key);
 
         if (!hash_equals($captchas['code'], $request->captcha_code)) {
             return $this->response->errorUnauthorized('验证码错误');

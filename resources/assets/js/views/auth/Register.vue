@@ -107,6 +107,7 @@
 
                         this.$store.dispatch('postUsers', params).then(response => {
                             this.$router.push('/auth/login')
+                            this.$ls.removeItem('captchas')
                         }).catch(error => {
                             this.getCaptcha()
                             if (error.response.status === 422) {
