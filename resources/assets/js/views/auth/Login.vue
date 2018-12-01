@@ -43,6 +43,7 @@
                 }
 
                 this.$store.dispatch('login', params).then(response => {
+                    this.$store.dispatch('getMe')
                     this.$router.push('/')
                 })
             },
