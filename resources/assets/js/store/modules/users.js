@@ -19,6 +19,15 @@ export default {
                 commit('SET_ME', response.data)
                 commit('SET_AUTH', true)
             })
+        },
+        updateMe({commit}, params) {
+            return api.updateMe(params).then(response => {
+                commit('SET_ME', response.data)
+            })
+
+        },
+        updatePassword({commit}, params) {
+            return api.updatePassword(params)
         }
     },
     mutations: {
@@ -30,9 +39,4 @@ export default {
             state.auth = auth
         }
     },
-    getters: {
-        getMe(state) {
-            return state.me
-        }
-    }
 }

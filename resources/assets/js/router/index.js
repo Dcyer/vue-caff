@@ -33,6 +33,18 @@ const routes = [
                 name: 'EditProfile',
                 component: require('../views/users/Profile.vue'),
                 meta: {auth: true}
+            },
+            {
+                path: '/users/:id/edit_avatar',
+                name: 'EditAvatar',
+                component: require('../views/users/Avatar'),
+                meta: {auth: true}
+            },
+            {
+                path: '/users/:id/edit_password',
+                name: 'EditPassword',
+                component: require('../views/users/Password'),
+                meta: {auth: true}
             }
         ]
     },
@@ -46,6 +58,8 @@ const router = new Router({
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
     const auth = ls.getItem('jwt-token')
+    const app = router.app
+    app.$msg.hide()
 
     if (
         (auth && to.path.indexOf('/auth/') !== -1) ||

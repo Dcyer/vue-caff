@@ -43,7 +43,9 @@
         }),
         methods: {
             logout() {
-                this.$store.dispatch('logout')
+                this.$store.dispatch('logout').then(response => {
+                    this.$msg.show('你已退出登录')
+                })
             }
         },
     }

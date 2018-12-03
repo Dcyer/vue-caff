@@ -10,6 +10,9 @@ import ls from './utils/localStorage'
 import './components'
 import './directives'
 import axios from 'axios'
+import Message from './plugins/message'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 // 请求拦截
 axios.interceptors.request.use(function (request) {
@@ -39,6 +42,8 @@ axios.interceptors.response.use(response => {
     return Promise.reject(error)
 })
 
+Vue.use(ElementUI);
+Vue.use(Message)
 Vue.use(VeeValidate)
 Validator.localize('zh_CN', zh_CN)
 

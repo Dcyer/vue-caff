@@ -106,6 +106,7 @@
                         }
 
                         this.$store.dispatch('postUsers', params).then(response => {
+                            this.$message.success('注册成功')
                             this.$router.push('/auth/login')
                             this.$ls.removeItem('captchas')
                         }).catch(error => {

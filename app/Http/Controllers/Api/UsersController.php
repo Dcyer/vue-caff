@@ -54,4 +54,13 @@ class UsersController extends Controller
 
         return $this->response->item($user, new UserTransformer());
     }
+
+    public function updatePassword(Request $request)
+    {
+        $password = bcrypt($request->password);
+
+        $this->user->update(['password' => $password]);
+
+        return $this->response->created();
+    }
 }

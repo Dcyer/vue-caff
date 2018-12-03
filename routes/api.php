@@ -33,9 +33,15 @@ $api->version('v1', [
         // 当前登录用户信息
         $api->get('user', 'UsersController@me')
             ->name('api.user.show');
+        // 更改登录用户密码
+        $api->patch('user/password', 'UsersController@updatePassword')
+            ->name('api.user.password');
         // 编辑登录用户信息
         $api->patch('user', 'UsersController@update')
             ->name('api.user.update');
+        // 上传头像
+        $api->post('uploads/avatar', 'UploadsController@avatar')
+            ->name('api.uploads.avatar');
 
     });
 });

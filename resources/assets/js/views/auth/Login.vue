@@ -56,6 +56,7 @@
 
                         this.$store.dispatch('login', params).then(response => {
                             this.$store.dispatch('getMe')
+                            this.$message.success('登录成功')
                             this.$router.push('/')
                         }).catch(error => {
                             if (error.response.status === 422) {

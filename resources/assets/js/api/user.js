@@ -8,5 +8,11 @@ export default {
     },
     getMe: function () {
         return axios.get(API_URL + 'user')
+    },
+    updateMe: function (params) {
+        return axios.patch(API_URL + 'user', params)
+    },
+    updatePassword: function (params) {
+        return axios.patch(API_URL + 'user/password', params)
     }
 }

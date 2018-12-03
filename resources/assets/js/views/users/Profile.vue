@@ -8,13 +8,13 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">用户名</label>
                         <div class="col-sm-6">
-                            <input v-model.trim="name" type="text" class="form-control">
+                            <input v-model="name" type="text" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">个人简介</label>
                         <div class="col-sm-6">
-                            <textarea v-model.trim="introduction" type="text" class="form-control"></textarea>
+                            <textarea v-model="introduction" type="text" class="form-control"></textarea>
                         </div>
                     </div>
 
@@ -32,25 +32,31 @@
 <script>
     export default {
         name: 'EditProfile',
-        data() {
-            return {
-                name: '',
-                introduction: ''
-            }
-        },
-        created() {
-            const user = this.$store.getters.getMe
-
-            if (user && typeof user === 'object') {
-                const {name, introduction} = user
-
-                this.name = name
-                this.introduction = introduction
+        computed: {
+            name: {
+                get() {
+                    return this.$store.state.users.me.name
+                },
+                set(value) {
+                    this.$store.state.users.me.name = value
+                }
+            },
+            introduction: {
+                get() {
+                    return this.$store.state.users.me.introduction
+                },
+                set(value) {
+                    this.$store.state.users.me.introduction = value
+                }
             }
         },
         methods: {
             updateProfile() {
-
+                this.$store.dispatch('updateMe', {
+                    name: this.name,
+                    introduction: this.introduction,
+                })
+                this.$msg.show('修改成功')
             }
         }
     }
