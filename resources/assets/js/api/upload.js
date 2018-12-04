@@ -6,4 +6,7 @@ export default {
     postAvatars: function (params) {
         return axios.post(API_URL + 'uploads/avatar', params, {'Content-Type':'multipart/form-data'})
     },
+    postArticleImages: function (params) {
+        return axios.post(API_URL + 'uploads/article_images', params, {'Content-Type':'multipart/form-data'})
+    },
 }

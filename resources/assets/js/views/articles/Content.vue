@@ -6,6 +6,7 @@
                     <h1 class="text-center">{{ article.title }}</h1>
                     <div class="article-meta text-center">
                         <i class="fa fa-clock-o"></i>
+                        <abbr>{{ article.created_at }}</abbr>
                     </div>
                     <div class="entry-content">
                         <div class="content-body entry-content panel-body ">
@@ -19,8 +20,6 @@
 </template>
 
 <script>
-    import 'mavon-editor/dist/css/index.css'
-
     export default {
         name: 'Content',
         data() {

@@ -18,4 +18,11 @@ class UploadsController extends Controller
 
         return $this->response->item($user, new UserTransformer());
     }
+    
+    public function articleImages(Request $request, ImageUploadHandler $uploader)
+    {
+        $result = $uploader->save($request->file, 'article_images');
+        
+        return $this->response->array(['path' => $result['path']]);
+    }
 }

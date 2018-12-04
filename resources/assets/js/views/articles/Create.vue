@@ -16,11 +16,14 @@
                         </div>
                         <div class="form-group">
                             <mavon-editor
-                                    code-style="monokai"
+                                    code-style="paraiso-dark"
                                     :ishljs="true"
                                     :subfield="false"
                                     placeholder="请使用 Markdown 格式书写 ;-)，代码片段黏贴时请注意使用高亮语法。"
                                     @change="markBody"
+                                    @imgAdd="$imgAdd"
+                                    @imgDel="$imgDel"
+                                    ref="md"
                             />
                         </div>
                         <br>
@@ -36,7 +39,9 @@
 
 <script>
     import {mavonEditor} from 'mavon-editor'
-    import 'mavon-editor/dist/css/index.css'
+    import emoji from 'markdown-it-emoji'
+
+    mavonEditor.mixins[0].data().markdownIt.set({emoji})
 
     export default {
         name: 'Create',
@@ -86,6 +91,17 @@
                     }
                 })
             },
+            $imgAdd(pos, $file) {
+                var formdata = new FormData();
+                formdata.append('file', $file);
+
+                this.$store.dispatch('postArticleImages', formdata).then(response => {
+                    this.$refs.md.$img2Url(pos, response.data.path);
+                })
+            },
+            $imgDel(pos, $file) {
+
+            }
         },
     }
 </script>
@@ -107,5 +123,9 @@
 
     .input-with-select .el-input-group__prepend {
         background-color: #fff;
+    }
+
+    .v-note-wrapper {
+        height: 500px;
     }
 </style>

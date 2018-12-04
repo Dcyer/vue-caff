@@ -13,6 +13,11 @@ import axios from 'axios'
 import Message from './plugins/message'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'mavon-editor/dist/css/index.css'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/paraiso-dark.css'
+
+window.hljs = hljs
 
 // 请求拦截
 axios.interceptors.request.use(function (request) {

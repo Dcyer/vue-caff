@@ -42,9 +42,13 @@ $api->version('v1', [
         // 编辑登录用户信息
         $api->patch('user', 'UsersController@update')
             ->name('api.user.update');
+        
         // 上传头像
         $api->post('uploads/avatar', 'UploadsController@avatar')
             ->name('api.uploads.avatar');
+        // 发布文章上传图片
+        $api->post('uploads/article_images', 'UploadsController@articleImages')
+            ->name('api.uploads.article_images');
 
         // 发布文章
         $api->post('articles', 'ArticlesController@store')

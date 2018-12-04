@@ -7,5 +7,8 @@ export default {
                 commit('SET_ME', response.data)
             })
         },
+        postArticleImages({commit}, params) {
+            return api.postArticleImages(params)
+        },
     },
 }
