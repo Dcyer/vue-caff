@@ -48,6 +48,12 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/articles/create',
+        name: 'Create',
+        component: require('../views/articles/Create'),
+        meta: {auth: true}
+    },
 ]
 
 const router = new Router({
