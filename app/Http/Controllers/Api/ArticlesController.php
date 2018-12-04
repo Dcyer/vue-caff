@@ -15,6 +15,11 @@ class ArticlesController extends Controller
         $article->user_id = $this->user()->id;
         $article->save();
 
+        return $this->response->array(['article_id' => $article->id])->setStatusCode(201);
+    }
+
+    public function show(Request $request, Article $article)
+    {
         return $this->response->item($article, new ArticleTransformer());
     }
 }

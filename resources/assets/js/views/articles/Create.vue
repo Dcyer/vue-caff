@@ -16,11 +16,11 @@
                         </div>
                         <div class="form-group">
                             <mavon-editor
-                                    v-model="body"
                                     code-style="monokai"
                                     :ishljs="true"
                                     :subfield="false"
                                     placeholder="请使用 Markdown 格式书写 ;-)，代码片段黏贴时请注意使用高亮语法。"
+                                    @change="markBody"
                             />
                         </div>
                         <br>
@@ -58,13 +58,19 @@
             },
         },
         methods: {
+            markBody(value, render) {
+                this.body = render
+                this.excerpt = value
+            },
             publishArticles() {
                 this.$store.dispatch('postArticles', {
                     title: this.title,
                     category_id: this.category_id,
                     body: this.body,
+                    excerpt: this.excerpt,
                 }).then(response => {
-
+                    this.$message.success('发布成功')
+                    this.$router.push('/articles/' + response.data.article_id + '/content')
                 }).catch(error => {
                     if (error.response.status === 422) {
                         for (let item in error.response.data.errors) {

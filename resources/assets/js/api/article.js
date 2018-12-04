@@ -6,4 +6,7 @@ export default {
     postArticels: function (params) {
         return axios.post(API_URL + 'articles', params)
     },
+    getArticle: function (articleId) {
+        return axios.get(API_URL + 'articles/' + articleId )
+    }
 }

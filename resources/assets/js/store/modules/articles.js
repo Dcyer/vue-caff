@@ -5,5 +5,8 @@ export default {
         postArticles({commit}, params) {
             return api.postArticels(params)
         },
+        getArticle({commit}, articleId) {
+            return api.getArticle(articleId)
+        }
     },
 }
