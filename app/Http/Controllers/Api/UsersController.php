@@ -47,9 +47,8 @@ class UsersController extends Controller
     public function update(UserRequest $request)
     {
         $user = $this->user();
-
+        $this->authorize('update', $user);
         $attributes = $request->only(['name', 'introduction']);
-
         $user->update($attributes);
 
         return $this->response->item($user, new UserTransformer());
@@ -58,7 +57,6 @@ class UsersController extends Controller
     public function updatePassword(Request $request)
     {
         $password = bcrypt($request->password);
-
         $this->user->update(['password' => $password]);
 
         return $this->response->created();

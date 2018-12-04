@@ -59,6 +59,12 @@ const routes = [
         name: 'Content',
         component: require('../views/articles/Content')
     },
+    {
+        path: '/articles/:articleId/edit',
+        name: 'Edit',
+        component: require('../views/articles/Create'),
+        meta: {auth: true}
+    },
 ]
 
 const router = new Router({

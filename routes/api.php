@@ -53,6 +53,9 @@ $api->version('v1', [
         // 发布文章
         $api->post('articles', 'ArticlesController@store')
             ->name('api.articles.store');
+        // 编辑文章
+        $api->patch('articles/{article}', 'ArticlesController@update')
+            ->name('api.articles.update');
 
     });
 });

@@ -22,4 +22,12 @@ class ArticlesController extends Controller
     {
         return $this->response->item($article, new ArticleTransformer());
     }
+
+    public function update(ArticleRequest $request, Article $article)
+    {
+        $this->authorize('update', $article);
+        $article->update($request->all());
+
+        return $this->response->item($article, new ArticleTransformer());
+    }
 }

@@ -10,11 +10,22 @@ class ArticleRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'title'       => 'required|min:2',
-            'category_id' => 'required|exists:categories,id',
-            'body'        => 'required|min:1',
-        ];
+        switch ($this->method()) {
+            case 'POST':
+                return [
+                    'title'       => 'required|min:2',
+                    'category_id' => 'required|exists:categories,id',
+                    'body'        => 'required|min:1',
+                ];
+                break;
+            case 'PATCH':
+                return [
+                    'title'       => 'min:2',
+                    'category_id' => 'exists:categories,id',
+                    'body'        => 'min:1',
+                ];
+                break;
+        }
     }
 
     public function messages()
