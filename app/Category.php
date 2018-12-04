@@ -23,8 +23,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Category wherePostCounts($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Article[] $articles
  */
 class Category extends Model
 {
     protected $fillable = ['name', 'description'];
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
 }

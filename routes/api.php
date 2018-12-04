@@ -43,5 +43,9 @@ $api->version('v1', [
         $api->post('uploads/avatar', 'UploadsController@avatar')
             ->name('api.uploads.avatar');
 
+        // 发布文章
+        $api->post('articles', 'ArticlesController@store')
+            ->name('api.articles.store');
+
     });
 });

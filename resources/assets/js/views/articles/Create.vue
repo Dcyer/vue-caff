@@ -7,11 +7,16 @@
                     <hr>
                     <div>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="请填写标题">
+                            <el-input placeholder="请输入标题" v-model="title" class="input-with-select">
+                                <el-select v-model="category_id" slot="prepend" clearable placeholder="请选择文章分类">
+                                    <el-option v-for="(category, index) in categories" :key="category.id"
+                                               :label="category.name" :value="category.id"></el-option>
+                                </el-select>
+                            </el-input>
                         </div>
                         <div class="form-group">
                             <mavon-editor
-                                    v-model="content"
+                                    v-model="body"
                                     code-style="monokai"
                                     :ishljs="true"
                                     :subfield="false"
@@ -20,7 +25,7 @@
                         </div>
                         <br>
                         <div class="form-group">
-                            <button class="btn btn-primary" type="submit">发 布</button>
+                            <button class="btn btn-primary" type="submit" @click="publishArticles">发 布</button>
                         </div>
                     </div>
                 </div>
@@ -41,16 +46,45 @@
         data() {
             return {
                 title: '',
-                content: ''
+                body: '',
+                category_id: '',
             }
         },
-        created() {
+        computed: {
+            categories: {
+                get() {
+                    return this.$store.state.categories.categories
+                },
+            },
+        },
+        methods: {
+            publishArticles() {
+                this.$store.dispatch('postArticles', {
+                    title: this.title,
+                    category_id: this.category_id,
+                    body: this.body,
+                }).then(response => {
 
-        }
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        for (let item in error.response.data.errors) {
+                            setTimeout(() => {
+                                this.$notify.error({
+                                    title: '发布失败',
+                                    message: error.response.data.errors[item][0],
+                                    duration: 5000,
+                                    offset: 80
+                                });
+                            }, 100)
+                        }
+                    }
+                })
+            },
+        },
     }
 </script>
 
-<style scoped>
+<style>
     .blog-container {
         max-width: 980px;
         margin: 0 auto;
@@ -59,5 +93,13 @@
 
     textarea {
         height: 200px;
+    }
+
+    .el-select .el-input {
+        width: 155px;
+    }
+
+    .input-with-select .el-input-group__prepend {
+        background-color: #fff;
     }
 </style>
