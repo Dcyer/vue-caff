@@ -38,7 +38,7 @@
                 let param = new FormData()
                 param.append('file',e.file)
                 this.$store.dispatch('postAvatars', param).then(response => {
-                    this.$msg.show('修改成功')
+                    this.$message.success('修改成功')
                 })
             }
         }

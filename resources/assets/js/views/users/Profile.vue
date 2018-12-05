@@ -56,7 +56,7 @@
                     name: this.name,
                     introduction: this.introduction,
                 })
-                this.$msg.show('修改成功')
+                this.$message.success('修改成功')
             }
         }
     }

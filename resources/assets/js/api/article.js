@@ -11,5 +11,8 @@ export default {
     },
     updateArticle: function (params) {
         return axios.patch(API_URL + 'articles/' + params.articleId, params)
+    },
+    deleteArticle: function (articleId) {
+        return axios.delete(API_URL + 'articles/' + articleId)
     }
 }

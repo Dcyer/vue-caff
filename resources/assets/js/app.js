@@ -7,16 +7,15 @@ import store from './store'
 import zh_CN from 'vee-validate/dist/locale/zh_CN'
 import VeeValidate, { Validator } from 'vee-validate'
 import ls from './utils/localStorage'
-import './components'
 import './directives'
 import axios from 'axios'
-import Msg from './plugins/message'
 import ElementUI from 'element-ui';
 import {Message} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'mavon-editor/dist/css/index.css'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/paraiso-dark.css'
+import VueSweetalert2 from './plugins/vue-sweetalert2'
 
 window.hljs = hljs
 
@@ -35,10 +34,9 @@ axios.interceptors.request.use(function (request) {
 axios.interceptors.response.use(response => {
     return response
 }, error => {
-    let jwt = ls.getItem('jwt-token')
     switch (error.response.status) {
         case 401:
-            if (jwt) {
+            if (ls.getItem('jwt-token')) {
                 ls.removeItem('jwt-token')
                 router.push('/auth/login')
             }
@@ -52,8 +50,8 @@ axios.interceptors.response.use(response => {
     return Promise.reject(error)
 })
 
+Vue.use(VueSweetalert2)
 Vue.use(ElementUI);
-Vue.use(Msg)
 Vue.use(VeeValidate)
 Validator.localize('zh_CN', zh_CN)
 

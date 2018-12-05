@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Handlers\ImageUploadHandler;
+use App\Http\Requests\Api\UploadRequest;
 use App\Transformers\UserTransformer;
-use Illuminate\Http\Request;
 
 class UploadsController extends Controller
 {
-    public function avatar(Request $request, ImageUploadHandler $uploader)
+    public function avatar(UploadRequest $request, ImageUploadHandler $uploader)
     {
         $user = $this->user();
 
@@ -19,7 +19,7 @@ class UploadsController extends Controller
         return $this->response->item($user, new UserTransformer());
     }
     
-    public function articleImages(Request $request, ImageUploadHandler $uploader)
+    public function articleImages(UploadRequest $request, ImageUploadHandler $uploader)
     {
         $result = $uploader->save($request->file, 'article_images');
         

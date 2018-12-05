@@ -30,4 +30,12 @@ class ArticlesController extends Controller
 
         return $this->response->item($article, new ArticleTransformer());
     }
+
+    public function destroy(Article $article)
+    {
+        $this->authorize('delete', $article);
+        $article->delete();
+
+        return $this->response->noContent();
+    }
 }

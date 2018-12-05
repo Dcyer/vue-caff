@@ -75,8 +75,6 @@ const router = new Router({
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
     const auth = ls.getItem('jwt-token')
-    const app = router.app
-    app.$msg.hide()
 
     if (
         (auth && to.path.indexOf('/auth/') !== -1) ||

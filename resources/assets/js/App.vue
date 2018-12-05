@@ -19,8 +19,7 @@
             TheFooter
         },
         created() {
-            let jwt = this.$ls.getItem('jwt-token')
-            if (jwt) {
+            if (this.$ls.getItem('jwt-token')) {
                 this.$store.dispatch('getMe')
             }
         }

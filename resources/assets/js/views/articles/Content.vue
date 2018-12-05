@@ -59,7 +59,17 @@
                 this.$router.push({name: 'Edit', params: {articleId: this.articleId}})
             },
             deleteArticle() {
-
+                this.$swal({
+                    text: '你确定要删除此内容吗?',
+                    confirmButtonText: '删除'
+                }).then((res) => {
+                    if (res.value) {
+                        this.$store.dispatch('deleteArticle', this.articleId).then(response => {
+                            this.$message.success('删除成功')
+                            this.$router.push({name: 'Home', params: {showMsg: true}})
+                        })
+                    }
+                })
             }
         }
     }

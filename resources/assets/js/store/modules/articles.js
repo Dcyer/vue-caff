@@ -10,6 +10,9 @@ export default {
         },
         updateArticle({commit}, params) {
             return api.updateArticle(params)
+        },
+        deleteArticle({commit}, articleId) {
+            return api.deleteArticle(articleId)
         }
     },
 }
