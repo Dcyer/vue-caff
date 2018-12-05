@@ -56,8 +56,10 @@ class UsersController extends Controller
 
     public function updatePassword(Request $request)
     {
+        $user = $this->user();
+        $this->authorize('update', $user);
         $password = bcrypt($request->password);
-        $this->user->update(['password' => $password]);
+        $user->update(['password' => $password]);
 
         return $this->response->created();
     }
