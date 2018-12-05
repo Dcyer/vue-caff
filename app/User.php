@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Jcc\LaravelVote\Vote;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -38,7 +39,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
+    use Notifiable, Vote;
 
     /**
      * The attributes that are mass assignable.

@@ -65,6 +65,12 @@ $api->version('v1', [
         // 删除文章
         $api->delete('articles/{article}', 'ArticlesController@destroy')
             ->name('api.articles.destroy');
+        // 文章点赞
+        $api->post('articles/{article}/votes', 'VotesController@store')
+            ->name('api.articles.votes.store');
+        // 取消点赞
+        $api->delete('articles/{article}/votes', 'VotesController@destroy')
+            ->name('api.articles.votes.destroy');
 
     });
 });

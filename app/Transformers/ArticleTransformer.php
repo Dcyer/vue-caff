@@ -22,6 +22,7 @@ class ArticleTransformer extends TransformerAbstract
             'last_reply_user_id' => (int)$article->last_reply_user_id,
             'excerpt'            => $article->excerpt,
             'slug'               => $article->slug,
+            'votes'              => $article->voters,
             'created_at'         => $article->created_at->diffForHumans(),
             'updated_at'         => $article->updated_at->diffForHumans(),
         ];

@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Jcc\LaravelVote\VoteServiceProvider::class,
 
         /*
          * Application Service Providers...
