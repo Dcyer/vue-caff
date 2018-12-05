@@ -39,16 +39,21 @@
                 articles: []
             }
         },
-        created() {
-            const userId = this.$route.params.userId
+        watch: {
+            $route: {
+                handler() {
+                    const userId = this.$route.params.userId
 
-            this.$store.dispatch('getUserArticles', userId).then(response => {
-                this.articles = response.data.data
-            }).catch(error => {
-                this.$message.error('用户不存在/(ㄒoㄒ)/~~')
-                this.$router.push('/')
-            })
-        }
+                    this.$store.dispatch('getUserArticles', userId).then(response => {
+                        this.articles = response.data.data
+                    }).catch(error => {
+                        this.$message.error('用户不存在/(ㄒoㄒ)/~~')
+                        this.$router.push('/')
+                    })
+                },
+                immediate: true
+            }
+        },
     }
 </script>
 

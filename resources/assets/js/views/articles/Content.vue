@@ -38,17 +38,22 @@
                 article: {}
             }
         },
-        created() {
-            const articleId = this.$route.params.articleId
+        watch: {
+            $route: {
+                handler() {
+                    const articleId = this.$route.params.articleId
 
-            this.$store.dispatch('getArticle', articleId).then(response => {
-                this.article = response.data
-            }).catch(error => {
-                this.$message.error('文章丢失了/(ㄒoㄒ)/~~')
-                this.$router.push('/')
-            })
+                    this.$store.dispatch('getArticle', articleId).then(response => {
+                        this.article = response.data
+                    }).catch(error => {
+                        this.$message.error('文章丢失了/(ㄒoㄒ)/~~')
+                        this.$router.push('/')
+                    })
 
-            this.articleId = articleId
+                    this.articleId = articleId
+                },
+                immediate: true
+            }
         },
         methods: {
             editArticle() {
