@@ -18,7 +18,7 @@ class ArticleTransformer extends TransformerAbstract
             'user_id'            => (int)$article->user_id,
             'category_id'        => (int)$article->category_id,
             'reply_count'        => (int)$article->reply_count,
-            'view_count'         => (int)$article->view_count,
+            'view_count'         => (int)$article->visits()->count(),
             'last_reply_user_id' => (int)$article->last_reply_user_id,
             'excerpt'            => $article->excerpt,
             'slug'               => $article->slug,
