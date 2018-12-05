@@ -14,5 +14,8 @@ export default {
     },
     deleteArticle: function (articleId) {
         return axios.delete(API_URL + 'articles/' + articleId)
+    },
+    getUserArticles: function (userId) {
+        return axios.get(API_URL + 'users/' + userId + '/articles?include=user')
     }
 }

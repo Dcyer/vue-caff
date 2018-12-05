@@ -7,6 +7,8 @@ use League\Fractal\TransformerAbstract;
 
 class ArticleTransformer extends TransformerAbstract
 {
+    protected $availableIncludes = ['user'];
+
     public function transform(Article $article)
     {
         return [
@@ -23,5 +25,10 @@ class ArticleTransformer extends TransformerAbstract
             'created_at'         => $article->created_at->diffForHumans(),
             'updated_at'         => $article->updated_at->diffForHumans(),
         ];
+    }
+
+    public function includeUser(Article $article)
+    {
+        return $this->item($article->user, new UserTransformer());
     }
 }

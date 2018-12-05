@@ -55,15 +55,26 @@ const routes = [
         meta: {auth: true}
     },
     {
-        path: '/articles/:articleId/content',
-        name: 'Content',
-        component: require('../views/articles/Content')
-    },
-    {
         path: '/articles/:articleId/edit',
         name: 'Edit',
         component: require('../views/articles/Create'),
         meta: {auth: true}
+    },
+    {
+        path: '/users/:userId/articles',
+        component: require('../views/articles/Column'),
+        children: [
+            {
+                path: '',
+                name: 'Column',
+                component: require('../views/articles/List')
+            },
+            {
+                path: '/users/:userId/articles/:articleId/content',
+                name: 'Content',
+                component: require('../views/articles/Content')
+            },
+        ]
     },
 ]
 

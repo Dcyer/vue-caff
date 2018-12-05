@@ -13,6 +13,9 @@ export default {
         },
         deleteArticle({commit}, articleId) {
             return api.deleteArticle(articleId)
+        },
+        getUserArticles({commit}, userId) {
+            return api.getUserArticles(userId)
         }
     },
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Article;
 use App\Http\Requests\Api\ArticleRequest;
 use App\Transformers\ArticleTransformer;
+use App\User;
 use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
@@ -37,5 +38,12 @@ class ArticlesController extends Controller
         $article->delete();
 
         return $this->response->noContent();
+    }
+
+    public function userIndex(User $user)
+    {
+        $articles = $user->articles()->orderBy('id', 'desc')->paginate(20);
+
+        return $this->response->paginator($articles, new ArticleTransformer());
     }
 }

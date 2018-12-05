@@ -14,5 +14,8 @@ export default {
     },
     updatePassword: function (params) {
         return axios.patch(API_URL + 'user/password', params)
+    },
+    getUser: function (userId) {
+        return axios.get(API_URL + 'users/' + userId)
     }
 }

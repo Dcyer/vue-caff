@@ -33,6 +33,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Article[] $articles
+ * @property int $post_counts 文章数量
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePostCounts($value)
  */
 class User extends Authenticatable implements JWTSubject
 {

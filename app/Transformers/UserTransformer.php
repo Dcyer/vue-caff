@@ -15,6 +15,7 @@ class UserTransformer extends TransformerAbstract
             'email' => $user->email,
             'avatar' => $user->avatar,
             'introduction' => $user->introduction,
+            'post_counts' => (int)$user->post_counts,
             'created_at' => $user->created_at->toDateTimeString(),
             'updated_at' => $user->updated_at->toDateTimeString(),
         ];

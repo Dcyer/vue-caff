@@ -28,6 +28,9 @@ export default {
         },
         updatePassword({commit}, params) {
             return api.updatePassword(params)
+        },
+        getUser({commit}, userId) {
+            return api.getUser(userId)
         }
     },
     mutations: {

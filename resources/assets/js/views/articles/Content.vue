@@ -1,25 +1,21 @@
 <template>
-    <div class="blog-container" style="margin-top:20px">
-        <div class="blog-pages">
-            <div class="col-md-9 left-col pull-right">
-                <div class="panel article-body content-body">
-                    <h1 class="text-center">{{ article.title }}</h1>
-                    <div class="article-meta text-center">
-                        <i class="fa fa-clock-o"></i>
-                        <abbr>{{ article.created_at }}</abbr>
-                    </div>
-                    <div class="entry-content">
-                        <div class="content-body entry-content panel-body ">
-                            <div class="markdown-body" v-html="article.body"></div>
-                            <!-- 编辑删除图标 -->
-                            <div v-if="auth && user_id === article.user_id" class="panel-footer operate">
-                                <div class="actions">
-                                    <a @click="deleteArticle" class="admin" href="javascript:;"><i
-                                            class="fa fa-trash-o"></i></a>
-                                    <a @click="editArticle" class="admin" href="javascript:;"><i
-                                            class="fa fa-pencil-square-o"></i></a>
-                                </div>
-                            </div>
+    <div class="col-md-9 left-col pull-right">
+        <div class="panel article-body content-body">
+            <h1 class="text-center">{{ article.title }}</h1>
+            <div class="article-meta text-center">
+                <i class="fa fa-clock-o"></i>
+                <abbr>{{ article.created_at }}</abbr>
+            </div>
+            <div class="entry-content">
+                <div class="content-body entry-content panel-body ">
+                    <div class="markdown-body" v-html="article.body"></div>
+
+                    <div v-if="auth && user_id === article.user_id" class="panel-footer operate">
+                        <div class="actions">
+                            <a @click="deleteArticle" class="admin" href="javascript:;"><i
+                                    class="fa fa-trash-o"></i></a>
+                            <a @click="editArticle" class="admin" href="javascript:;"><i
+                                    class="fa fa-pencil-square-o"></i></a>
                         </div>
                     </div>
                 </div>

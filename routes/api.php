@@ -29,6 +29,12 @@ $api->version('v1', [
     // 文章详情
     $api->get('articles/{article}', 'ArticlesController@show')
         ->name('api.articles.show');
+    // 某个用户的文章列表
+    $api->get('users/{user}/articles', 'ArticlesController@userIndex')
+        ->name('api.users.articles.index');
+    // 用户详情
+    $api->get('users/{user}', 'UsersController@show')
+        ->name('api.users.show');
 
     // 需要 token 验证的接口
     $api->group(['middleware' => 'api.auth'], function($api) {
@@ -56,6 +62,7 @@ $api->version('v1', [
         // 编辑文章
         $api->patch('articles/{article}', 'ArticlesController@update')
             ->name('api.articles.update');
+        // 删除文章
         $api->delete('articles/{article}', 'ArticlesController@destroy')
             ->name('api.articles.destroy');
 
