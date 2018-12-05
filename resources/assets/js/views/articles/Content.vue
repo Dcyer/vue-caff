@@ -11,6 +11,15 @@
                     <div class="entry-content">
                         <div class="content-body entry-content panel-body ">
                             <div class="markdown-body" v-html="article.body"></div>
+                            <!-- 编辑删除图标 -->
+                            <div v-if="auth && user_id === article.user_id" class="panel-footer operate">
+                                <div class="actions">
+                                    <a @click="deleteArticle" class="admin" href="javascript:;"><i
+                                            class="fa fa-trash-o"></i></a>
+                                    <a @click="editArticle" class="admin" href="javascript:;"><i
+                                            class="fa fa-pencil-square-o"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -20,8 +29,14 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
+
     export default {
         name: 'Content',
+        computed: mapState({
+            auth: state => state.users.auth,
+            user_id: state => state.users.me.id
+        }),
         data() {
             return {
                 article: {}
@@ -37,6 +52,15 @@
                 this.$router.push('/')
             })
 
+            this.articleId = articleId
+        },
+        methods: {
+            editArticle() {
+                this.$router.push({name: 'Edit', params: {articleId: this.articleId}})
+            },
+            deleteArticle() {
+
+            }
         }
     }
 </script>

@@ -7,6 +7,9 @@ export default {
         },
         getArticle({commit}, articleId) {
             return api.getArticle(articleId)
+        },
+        updateArticle({commit}, params) {
+            return api.updateArticle(params)
         }
     },
 }

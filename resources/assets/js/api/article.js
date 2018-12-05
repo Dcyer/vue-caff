@@ -7,6 +7,9 @@ export default {
         return axios.post(API_URL + 'articles', params)
     },
     getArticle: function (articleId) {
-        return axios.get(API_URL + 'articles/' + articleId )
+        return axios.get(API_URL + 'articles/' + articleId)
+    },
+    updateArticle: function (params) {
+        return axios.patch(API_URL + 'articles/' + params.articleId, params)
     }
 }

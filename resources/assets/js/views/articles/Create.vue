@@ -3,7 +3,7 @@
         <div class="blog-pages">
             <div class="col-md-12 panel">
                 <div class="panel-body">
-                    <h2 class="text-center">创作文章</h2>
+                    <h2 class="text-center">{{ this.articleId !== undefined ? '编辑' : '创作' }}文章</h2>
                     <hr>
                     <div>
                         <div class="form-group">
@@ -16,6 +16,7 @@
                         </div>
                         <div class="form-group">
                             <mavon-editor
+                                    :value="defaultValue"
                                     code-style="paraiso-dark"
                                     :ishljs="true"
                                     :subfield="false"
@@ -28,7 +29,9 @@
                         </div>
                         <br>
                         <div class="form-group">
-                            <button class="btn btn-primary" type="submit" @click="publishArticles">发 布</button>
+                            <button class="btn btn-primary" type="submit" @click="handle">{{ this.articleId ===
+                                undefined ? '发 布' : '更 新' }}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -53,6 +56,8 @@
                 title: '',
                 body: '',
                 category_id: '',
+                articleId: undefined,
+                defaultValue: ''
             }
         },
         computed: {
@@ -62,10 +67,28 @@
                 },
             },
         },
+        created() {
+            this.articleId = this.$route.params.articleId
+            if (this.articleId !== undefined) {
+                this.$store.dispatch('getArticle', this.articleId).then(response => {
+                    this.title = response.data.title
+                    this.category_id = response.data.category_id
+                    this.body = response.data.body
+                    this.defaultValue = response.data.excerpt
+                })
+            }
+        },
         methods: {
             markBody(value, render) {
                 this.body = render
                 this.excerpt = value
+            },
+            handle() {
+                if (this.articleId === undefined) {
+                    this.publishArticles()
+                } else {
+                    this.updateArticle()
+                }
             },
             publishArticles() {
                 this.$store.dispatch('postArticles', {
@@ -75,7 +98,32 @@
                     excerpt: this.excerpt,
                 }).then(response => {
                     this.$message.success('发布成功')
-                    this.$router.push('/articles/' + response.data.article_id + '/content')
+                    this.$router.push({name: 'Content', params: {articleId: response.data.article_id}})
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        for (let item in error.response.data.errors) {
+                            setTimeout(() => {
+                                this.$notify.error({
+                                    title: '发布失败',
+                                    message: error.response.data.errors[item][0],
+                                    duration: 5000,
+                                    offset: 80
+                                });
+                            }, 100)
+                        }
+                    }
+                })
+            },
+            updateArticle() {
+                this.$store.dispatch('updateArticle', {
+                    articleId: this.articleId,
+                    title: this.title,
+                    category_id: this.category_id,
+                    body: this.body,
+                    excerpt: this.excerpt,
+                }).then(response => {
+                    this.$message.success('更新成功')
+                    this.$router.push({name: 'Content', params: {articleId: this.articleId}})
                 }).catch(error => {
                     if (error.response.status === 422) {
                         for (let item in error.response.data.errors) {
@@ -101,7 +149,7 @@
             },
             $imgDel(pos, $file) {
 
-            }
+            },
         },
     }
 </script>

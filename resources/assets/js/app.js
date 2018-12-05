@@ -10,8 +10,9 @@ import ls from './utils/localStorage'
 import './components'
 import './directives'
 import axios from 'axios'
-import Message from './plugins/message'
+import Msg from './plugins/message'
 import ElementUI from 'element-ui';
+import {Message} from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'mavon-editor/dist/css/index.css'
 import hljs from 'highlight.js'
@@ -42,13 +43,17 @@ axios.interceptors.response.use(response => {
                 router.push('/auth/login')
             }
             break;
+        case 403:
+            Message.error('你没有权限哦！~_~')
+            router.push('/')
+            break
 
     }
     return Promise.reject(error)
 })
 
 Vue.use(ElementUI);
-Vue.use(Message)
+Vue.use(Msg)
 Vue.use(VeeValidate)
 Validator.localize('zh_CN', zh_CN)
 
