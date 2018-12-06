@@ -18,8 +18,11 @@
             <div id="top-navbar-collapse" :class="['collapse', 'navbar-collapse', { in: showCollapsedNav }]">
                 <!-- 导航分类 -->
                 <ul class="nav navbar-nav">
+                    <li :class="{active: 'all' === activeCategoryIndex}">
+                        <a @click="getAll">全部文章</a>
+                    </li>
                     <li v-for="(category, index) in categories" :class="{active: index === activeCategoryIndex}">
-                        <a href="#" @click="changeCategoryIndex(index)">{{ category.name }}</a>
+                        <a @click="changeCategoryIndex(index, category.id)">{{ category.name }}</a>
                     </li>
                 </ul>
 
@@ -47,7 +50,7 @@
                     src: `${this.uploadsUrl}sites/ByvFbNlQYVwhvTyBgLdqitchoacDNznN.jpg`,
                     title: 'VuejsCaff'
                 },
-                activeCategoryIndex: 0,
+                activeCategoryIndex: 'all',
                 showCollapsedNav: false,
             }
         },
@@ -61,8 +64,13 @@
             this.$store.dispatch('getCategories')
         },
         methods: {
-            changeCategoryIndex(index) {
+            changeCategoryIndex(index, categoryId) {
                 this.activeCategoryIndex = index
+                this.$router.push('/?categoryId=' + categoryId)
+            },
+            getAll() {
+                this.activeCategoryIndex = 'all'
+                this.$router.push('/?categoryId=' + 0)
             },
             toggleNav() {
                 this.showCollapsedNav = !this.showCollapsedNav

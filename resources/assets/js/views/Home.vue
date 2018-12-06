@@ -9,7 +9,7 @@
                             <router-link
                                     v-title="item.title"
                                     :class="{ active: filter === item.filter }"
-                                    :to="`/articles?filter=${item.filter}`">
+                                    :to="`/articles?categoryId=${categoryId}&filter=${item.filter}`">
                                 {{ item.name }}
                             </router-link>
                         </li>
@@ -68,11 +68,11 @@
                     {filter: 'recent', name: '最近', title: '发布时间排序'},
                     {filter: 'noreply', name: '零回复', title: '无人问津的话题'}
                 ],
+                categoryId: 0,
             }
         },
         beforeRouteEnter(to, from, next) {
             next(vm => {
-                // 确认渲染该组件的对应路由时，设置相关数据
                 vm.setDataByFilter(to.query.filter)
             })
         },
@@ -83,6 +83,7 @@
         },
         watch: {
             '$route'(to) {
+                this.categoryId = to.query.categoryId
                 this.setDataByFilter(to.query.filter)
             }
         },
@@ -91,7 +92,12 @@
         },
         methods: {
             getArticles(filter) {
-                this.$store.dispatch('getArticles', {order: filter, page: this.currentPage}).then(response => {
+                const params = {
+                    category_id: this.categoryId,
+                    order: filter,
+                    page: this.currentPage
+                }
+                this.$store.dispatch('getArticles', params).then(response => {
                     this.articles = response.data.data
                     this.pagination = response.data.meta.pagination
                 })
