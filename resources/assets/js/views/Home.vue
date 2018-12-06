@@ -6,7 +6,12 @@
                 <div class="panel-heading">
                     <ul class="list-inline topic-filter">
                         <li v-for="item in filters">
-                            <router-link v-title="item.title" :class="{ active: filter === item.filter }" :to="`/articles?filter=${item.filter}`">{{ item.name }}</router-link>
+                            <router-link
+                                    v-title="item.title"
+                                    :class="{ active: filter === item.filter }"
+                                    :to="`/articles?filter=${item.filter}`">
+                                {{ item.name }}
+                            </router-link>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -28,7 +33,8 @@
                             <router-link :to="`/users/${article.user.id}/articles`" tag="div" class="avatar pull-left">
                                 <img :src="article.user.avatar" class="media-object img-thumbnail avatar avatar-middle">
                             </router-link>
-                            <router-link :to="`/users/${article.user.id}/articles/${article.id}/content`" tag="div" class="infos">
+                            <router-link :to="`/users/${article.user.id}/articles/${article.id}/content`" tag="div"
+                                         class="infos">
                                 <div class="media-heading">
                                     {{ article.title }}
                                 </div>
@@ -37,6 +43,11 @@
                     </ul>
                 </div>
 
+                <!-- 分页组件 -->
+                <div class="panel-footer text-right remove-padding-horizontal pager-footer">
+                    <Pagination :currentPage="currentPage" :total="pagination.total"
+                                :pageSize="pagination.per_page" :onPageChange="changePage"/>
+                </div>
             </div>
         </div>
     </div>
@@ -51,11 +62,11 @@
                 pagination: {},
                 filter: 'default', // 默认过滤方式
                 filters: [ // 过滤方式列表
-                    { filter: 'default', name: '活跃', title: '最后回复排序'},
-                    { filter: 'excellent', name: '精华', title: '只看加精的话题'},
-                    { filter: 'vote', name: '投票', title: '点赞数排序'},
-                    { filter: 'recent', name: '最近', title: '发布时间排序'},
-                    { filter: 'noreply', name: '零回复', title: '无人问津的话题'}
+                    {filter: 'default', name: '活跃', title: '最后回复排序'},
+                    {filter: 'excellent', name: '精华', title: '只看加精的话题'},
+                    {filter: 'vote', name: '投票', title: '点赞数排序'},
+                    {filter: 'recent', name: '最近', title: '发布时间排序'},
+                    {filter: 'noreply', name: '零回复', title: '无人问津的话题'}
                 ],
             }
         },
@@ -64,6 +75,11 @@
                 // 确认渲染该组件的对应路由时，设置相关数据
                 vm.setDataByFilter(to.query.filter)
             })
+        },
+        computed: {
+            currentPage() {
+                return parseInt(this.$route.query.page) || 1
+            },
         },
         watch: {
             '$route'(to) {
@@ -75,7 +91,7 @@
         },
         methods: {
             getArticles(filter) {
-                this.$store.dispatch('getArticles', {order: filter}).then(response => {
+                this.$store.dispatch('getArticles', {order: filter, page: this.currentPage}).then(response => {
                     this.articles = response.data.data
                     this.pagination = response.data.meta.pagination
                 })
@@ -83,6 +99,9 @@
             setDataByFilter(filter = 'default') {
                 this.filter = filter
                 this.getArticles(filter)
+            },
+            changePage(page) {
+                this.$router.push({query: {...this.$route.query, page}})
             }
         }
     }

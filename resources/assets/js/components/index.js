@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Modal from './Modal'
+import Pagination from './Pagination'
 
 const components = {
-    Modal
+    Modal,
+    Pagination
 }
 
 for (const [key, value] of Object.entries(components)) {
