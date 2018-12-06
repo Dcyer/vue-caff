@@ -25,6 +25,7 @@
         "highlight.js": "^9.13.1",
         "markdown-it-emoji": "^1.4.0",
         "mavon-editor": "^2.6.17",
+        "qrcode.vue": "^1.6.1",
         "sweetalert2": "^7.15.1",
         "vee-validate": "^2.1.3",
         "vue-router": "^3.0.2",

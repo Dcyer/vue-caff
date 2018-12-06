@@ -4,7 +4,7 @@
             <h1 class="text-center">{{ article.title }}</h1>
             <div class="article-meta text-center">
                 <i class="fa fa-clock-o"></i>
-                <abbr>{{ article.created_at }}</abbr>
+                <abbr>{{ article.created_at }}</abbr> ● {{ article.view_count }} 阅读
             </div>
             <div class="entry-content">
                 <div class="content-body entry-content panel-body ">
@@ -29,6 +29,8 @@
                     <a @click="vote" href="javascript:;" class="vote btn btn-primary popover-with-html" :class="voteClass">
                         <i class="fa fa-thumbs-up"></i> {{ voteClass ? '已赞' : '点赞' }}
                     </a>
+                    <div class="or"></div>
+                    <button @click="showQrcode = true" class="btn btn-success"><i class="fa fa-heart"></i> 打赏</button>
                 </div>
                 <div class="voted-users">
                     <div class="user-lists">
@@ -41,23 +43,48 @@
                 </div>
             </div>
         </div>
+
+        <!-- 打赏弹窗 -->
+        <Modal :show.sync="showQrcode" class="text-center">
+            <div v-if="user" slot="title">
+                <img :src="user.avatar" class="img-thumbnail avatar" width="48">
+            </div>
+            <div>
+                <p class="text-md">如果你想学习更多前端的知识，VuejsCaff.com 是个不错的开始</p>
+                <div class="payment-qrcode inline-block">
+                    <h5>扫一扫打开 VuejsCaff.com</h5>
+                    <p>
+                        <qrcode-vue value="https://vuejscaff.com/" :size="160"></qrcode-vue>
+                    </p>
+                </div>
+            </div>
+            <div slot="footer">
+                <div class="text-center">祝你学习愉快 :)</div>
+            </div>
+        </Modal>
     </div>
 </template>
 
 <script>
     import {mapState} from 'vuex'
+    import QrcodeVue from 'qrcode.vue'
 
     export default {
         name: 'Content',
+        components: {
+            QrcodeVue
+        },
         computed: mapState({
             auth: state => state.users.auth,
-            user_id: state => state.users.me.id
+            user_id: state => state.users.me.id,
+            user: state => state.users.me,
         }),
         data() {
             return {
                 article: {},
                 voteUsers: [], // 点赞用户列表
                 voteClass: '', // 点赞样式
+                showQrcode: false, // 是否显示打赏弹窗
             }
         },
         watch: {

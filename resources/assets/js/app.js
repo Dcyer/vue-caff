@@ -8,6 +8,7 @@ import zh_CN from 'vee-validate/dist/locale/zh_CN'
 import VeeValidate, { Validator } from 'vee-validate'
 import ls from './utils/localStorage'
 import './directives'
+import './components'
 import axios from 'axios'
 import ElementUI from 'element-ui';
 import {Message} from 'element-ui';
