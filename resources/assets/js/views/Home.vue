@@ -50,12 +50,20 @@
                 </div>
             </div>
         </div>
+
+        <!-- 侧栏 -->
+        <TheSidebar/>
     </div>
 </template>
 
 <script>
+    import TheSidebar from '../components/layouts/TheSidebar'
+
     export default {
         name: 'Home',
+        components: {
+            TheSidebar
+        },
         data() {
             return {
                 articles: [],
@@ -83,7 +91,7 @@
         },
         watch: {
             '$route'(to) {
-                this.categoryId = to.query.categoryId
+                this.categoryId = to.query.categoryId == 'undefined' ? 0 : to.query.categoryId
                 this.setDataByFilter(to.query.filter)
             }
         },

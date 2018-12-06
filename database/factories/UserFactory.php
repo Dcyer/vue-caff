@@ -14,10 +14,16 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\User::class, function (Faker $faker) {
+    $now = \Carbon\Carbon::now()->toDateTimeString();
+
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'avatar' => $faker->imageUrl(200),
+        'introduction' => $faker->sentence,
+        'password' => '$2y$10$CSG857YIYvAASde0dPgyRuv8pM5amMqdgSeH22sX0bRzstf8cZ3Qi', // 123456
         'remember_token' => str_random(10),
+        'created_at' => $now,
+        'updated_at' => $now,
     ];
 });
