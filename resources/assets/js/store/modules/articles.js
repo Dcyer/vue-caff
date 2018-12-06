@@ -16,6 +16,9 @@ export default {
         },
         getUserArticles({commit}, userId) {
             return api.getUserArticles(userId)
+        },
+        getArticles({commit}, params) {
+            return api.getArticles(params)
         }
     },
 }

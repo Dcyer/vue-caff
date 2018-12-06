@@ -17,5 +17,8 @@ export default {
     },
     getUserArticles: function (userId) {
         return axios.get(API_URL + 'users/' + userId + '/articles?include=user')
+    },
+    getArticles: function (params) {
+        return axios.get(API_URL + 'articles?include=user', {params: params})
     }
 }

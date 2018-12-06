@@ -72,4 +72,57 @@ class Article extends Model
     {
         return visits($this);
     }
+
+    /**
+     * @param $query
+     * @param $order  default 活跃 excellent 精华 vote 投票 recent 最近 noreply 零回复
+     * @return mixed
+     */
+    public function scopeWithOrder($query, $order)
+    {
+        switch ($order) {
+            case 'excellent':
+                $query->excellent();
+                break;
+            case 'vote':
+                $query->vote();
+                break;
+            case 'recent':
+                $query->recent();
+                break;
+            case 'noreply':
+                $query->noreply();
+                break;
+            default:
+                $query->default();
+                break;
+        }
+
+        return $query;
+    }
+
+    public function scopeDefault($query)
+    {
+        return $query->orderBy('updated_at', 'desc');
+    }
+
+    public function scopeExcellent($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    public function scopeVote($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    public function scopeRecent($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    public function scopeNoreply($query)
+    {
+        return $query->where('reply_count', 0);
+    }
 }

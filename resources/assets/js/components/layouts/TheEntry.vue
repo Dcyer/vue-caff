@@ -63,7 +63,7 @@
         methods: {
             logout() {
                 this.$store.dispatch('logout').then(response => {
-                    this.$msg.show('你已退出登录')
+                    this.$message.success('你已退出登录')
                 })
             }
         },

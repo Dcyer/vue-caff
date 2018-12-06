@@ -57,13 +57,8 @@
 </template>
 
 <script>
-    import title from '../../directives/title'
-
     export default {
         name: 'TheFooter',
-        directives: {
-            title
-        },
         data() {
             return {
                 description: 'VuejsCaff 是一个 Vue.js 的知识社区',

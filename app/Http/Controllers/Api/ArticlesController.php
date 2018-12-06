@@ -10,6 +10,19 @@ use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
+    public function index(Request $request, Article $article)
+    {
+        $query = $article->query();
+
+        if ($categoryId = $request->category_id) {
+            $query->where('category_id', $categoryId);
+        }
+
+        $articles = $query->withOrder($request->order)->paginate(20);
+
+        return $this->response->paginator($articles, new ArticleTransformer());
+    }
+
     public function store(ArticleRequest $request, Article $article)
     {
         $article->fill($request->all());

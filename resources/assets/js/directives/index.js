@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import dropdown from './dropdown'
+import title from './title'
 
 const directives = {
-    dropdown
+    dropdown,
+    title
 }
 
 for (const [key, value] of Object.entries(directives)) {
