@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Article;
+use App\Comment;
 use App\Observers\ArticleObserver;
+use App\Observers\CommentObserver;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale('zh');
 
         Article::observe(ArticleObserver::class);
+        Comment::observe(CommentObserver::class);
     }
 
     /**

@@ -40,6 +40,8 @@ use Jcc\LaravelVote\CanBeVoted;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Article whereViewCount($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $voters
  */
 class Article extends Model
 {
@@ -59,6 +61,11 @@ class Article extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function visits()

@@ -36,6 +36,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Article[] $articles
  * @property int $post_counts 文章数量
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePostCounts($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -72,5 +73,15 @@ class User extends Authenticatable implements JWTSubject
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function isAuthorOf($model)
+    {
+        return $this->id === $model->user_id;
     }
 }

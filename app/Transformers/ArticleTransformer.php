@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class ArticleTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['user'];
+    protected $availableIncludes = ['user', 'comments'];
 
     public function transform(Article $article)
     {
@@ -31,5 +31,10 @@ class ArticleTransformer extends TransformerAbstract
     public function includeUser(Article $article)
     {
         return $this->item($article->user, new UserTransformer());
+    }
+
+    public function includeComments(Article $article)
+    {
+        return $this->collection($article->comments, new CommentTransformer());
     }
 }

@@ -26,7 +26,8 @@
         <div class="votes-container panel panel-default padding-md">
             <div class="panel-body vote-box text-center">
                 <div class="btn-group">
-                    <a @click="vote" href="javascript:;" class="vote btn btn-primary popover-with-html" :class="voteClass">
+                    <a @click="vote" href="javascript:;" class="vote btn btn-primary popover-with-html"
+                       :class="voteClass">
                         <i class="fa fa-thumbs-up"></i> {{ voteClass ? '已赞' : '点赞' }}
                     </a>
                     <div class="or"></div>
@@ -36,7 +37,8 @@
                     <div class="user-lists">
                         <span v-for="voteUser in voteUsers">
                             <!-- 点赞用户是当前用户时，加上类 animated 和 swing 以显示一个特别的动画  -->
-                            <img :src="voteUser && voteUser.avatar" class="img-thumbnail avatar avatar-middle" :class="{ 'animated swing' : voteUser.id === user_id }">
+                            <img :src="voteUser && voteUser.avatar" class="img-thumbnail avatar avatar-middle"
+                                 :class="{ 'animated swing' : voteUser.id === user_id }">
                         </span>
                     </div>
                     <div v-if="!voteUsers.length" class="vote-hint">成为第一个点赞的人吧 ?</div>
@@ -62,17 +64,92 @@
                 <div class="text-center">祝你学习愉快 :)</div>
             </div>
         </Modal>
+
+        <!-- 评论框 -->
+        <div id="reply-box" class="reply-box form box-block">
+            <div class="form-group comment-editor">
+                <mavon-editor
+                        v-if="auth"
+                        :value="excerpt"
+                        code-style="paraiso-dark"
+                        :ishljs="true"
+                        :subfield="false"
+                        :toolbarsFlag="false"
+                        @change="markBody"
+                        placeholder="请使用 Markdown 格式书写 ;-)，代码片段黏贴时请注意使用高亮语法。"
+                        ref="md"
+                />
+                <textarea v-else disabled class="form-control" placeholder="需要登录后才能发表评论."
+                          style="height:172px"></textarea>
+            </div>
+            <div class="form-group reply-post-submit">
+                <button id="reply-btn" :disabled="!auth" @click="comment" class="btn btn-primary">回复</button>
+                <!--<span class="help-inline">Ctrl+Enter</span>-->
+            </div>
+            <div v-show="commentHtml" id="preview-box" class="box preview markdown-body" v-html="commentHtml"></div>
+        </div>
+
+        <!-- 评论列表 -->
+        <div class="replies panel panel-default list-panel replies-index">
+            <div class="panel-heading">
+                <div class="total">
+                    回复数量: <b>{{ comments.length }}</b>
+                </div>
+            </div>
+            <div class="panel-body">
+                <transition-group id="reply-list" name="fade" tag="ul" class="list-group row">
+                    <li v-for="(comment, index) in comments" :key="comment.id" class="list-group-item media">
+                        <div class="avatar avatar-container pull-left">
+                            <router-link :to="`/users/${comment.user.id}/articles`">
+                                <img :src="comment.user.avatar" class="media-object img-thumbnail avatar avatar-middle">
+                            </router-link>
+                        </div>
+                        <div class="infos">
+                            <div class="media-heading">
+                                <router-link :to="`/users/${comment.user.id}/articles`"
+                                             class="remove-padding-left author rm-link-color">
+                                    {{ comment.user.name }}
+                                </router-link>
+
+                                <!-- 编辑删除图标 -->
+                                <span v-if="auth" class="operate pull-right">
+                                    <span v-if="comment.user_id === user_id">
+                                        <a href="javascript:;" @click="deleteComment(comment.id)"><i class="fa fa-trash-o"></i></a>
+                                    </span>
+                                </span>
+
+                                <div class="meta">
+                                    <a :id="`reply${index + 1}`" :href="`#reply${index + 1}`" class="anchor">#{{ index +
+                                        1 }}</a>
+                                    <span> ⋅ </span>
+                                    <abbr class="timeago">
+                                        {{ comment.created_at }}
+                                    </abbr>
+                                </div>
+                            </div>
+
+                            <div class="preview media-body markdown-reply markdown-body" v-html="comment.body"></div>
+                        </div>
+                    </li>
+                </transition-group>
+                <div v-show="!comments.length" class="empty-block">
+                    暂无评论~~
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import {mapState} from 'vuex'
     import QrcodeVue from 'qrcode.vue'
+    import {mavonEditor} from 'mavon-editor'
 
     export default {
         name: 'Content',
         components: {
-            QrcodeVue
+            QrcodeVue,
+            mavonEditor
         },
         computed: mapState({
             auth: state => state.users.auth,
@@ -85,6 +162,9 @@
                 voteUsers: [], // 点赞用户列表
                 voteClass: '', // 点赞样式
                 showQrcode: false, // 是否显示打赏弹窗
+                commentHtml: '',
+                comments: [],
+                excerpt: '',
             }
         },
         watch: {
@@ -96,6 +176,7 @@
                         this.article = response.data
                         this.voteUsers = response.data.votes
                         this.voteClass = this.voteUsers.some(voteUser => voteUser.id === this.user_id) ? 'active' : ''
+                        this.renderComments(response.data.comments.data)
                     }).catch(error => {
                         this.$message.error('文章丢失了/(ㄒoㄒ)/~~')
                         this.$router.push('/')
@@ -107,6 +188,10 @@
             }
         },
         methods: {
+            markBody(value, render) {
+                this.commentHtml = render
+                this.excerpt = value
+            },
             editArticle() {
                 this.$router.push({name: 'Edit', params: {articleId: this.articleId}})
             },
@@ -154,10 +239,74 @@
                     }
                 }
             },
+            // 发表评论
+            comment() {
+                if (this.excerpt && this.commentHtml.trim() !== '') {
+                    const params = {
+                        articleId: this.articleId,
+                        body: this.commentHtml,
+                        excerpt: this.excerpt
+                    }
+                    this.$store.dispatch('postComments', params).then(response => {
+                        this.commentHtml = ''
+                        this.excerpt = ''
+                        this.renderComments(response.data.data)
+                    }).catch(error => {
+                        if (error.response.status === 422) {
+                            for (let item in error.response.data.errors) {
+                                setTimeout(() => {
+                                    this.$notify.error({
+                                        title: '评论失败',
+                                        message: error.response.data.errors[item][0],
+                                        duration: 5000,
+                                        offset: 80
+                                    });
+                                }, 100)
+                            }
+                        }
+                    })
+                    // 使回复按钮获得焦点
+                    document.querySelector('#reply-btn').focus()
+                    // 将最后的评论滚动到页面的顶部
+                    this.$nextTick(() => {
+                        const lastComment = document.querySelector('#reply-list li:last-child')
+                        if (lastComment) lastComment.scrollIntoView(true)
+                    })
+                }
+            },
+            // 删除评论
+            deleteComment(commentId) {
+                this.$swal({
+                    text: '你确定要删除此评论吗?',
+                    confirmButtonText: '删除'
+                }).then((res) => {
+                    if (res.value) {
+                        const params = {
+                            articleId: this.articleId,
+                            commentId: commentId,
+                        }
+                        this.$store.dispatch('deleteComment', params).then(response => {
+                            this.renderComments(response.data.data)
+                        })
+                    }
+                })
+            },
+            // 渲染评论
+            renderComments(comments) {
+                if (Array.isArray(comments)) {
+                    this.comments = comments
+                }
+            },
         }
     }
 </script>
 
 <style scoped>
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
 
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
 </style>

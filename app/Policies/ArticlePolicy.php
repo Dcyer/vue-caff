@@ -12,11 +12,11 @@ class ArticlePolicy
 
     public function update(User $currentUser, Article $article)
     {
-        return $currentUser->id === $article->user_id;
+        return $currentUser->isAuthorOf($article);
     }
 
     public function delete(User $currentUser, Article $article)
     {
-        return $currentUser->id === $article->user_id;
+        return $currentUser->isAuthorOf($article);
     }
 }
