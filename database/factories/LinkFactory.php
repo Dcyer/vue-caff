@@ -6,6 +6,6 @@ $factory->define(\App\Link::class, function (Faker $faker) {
     return [
         'title' => $faker->name,
         'link' => $faker->url,
-        'logo' => $faker->imageUrl(20)
+        'logo' => $faker->imageUrl(20, 20)
     ];
 });

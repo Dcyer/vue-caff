@@ -57,10 +57,10 @@
                 </div>
                 <div class="panel-body">
                     <ul class="list list-group">
-                        <li v-for="(item, index) in resources" class="list-group-item">
-                            <a :href="item.link" target="_blank">
-                                <img class="media-object inline-block " src="https://vuejscaffcdn.phphub.org/uploads/sites/fcxJFYjEMaLQt4Oi1x6ZNkcqvwIVHbfy.png">
-                                {{ item.title }}
+                        <li v-for="(link, index) in links" class="list-group-item">
+                            <a :href="link.link" target="_blank">
+                                <img class="media-object inline-block " :src="link.logo">
+                                {{ link.title }}
                             </a>
                         </li>
                     </ul>
@@ -129,10 +129,13 @@
                         link: 'https://vuejscaff.com/v2/style-guide/',
                     }
                 ],
+                links: [],
             }
         },
         created() {
-
+            this.$store.dispatch('getLinks').then(response => {
+                this.links = response.data.data
+            })
         }
     }
 </script>

@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Article;
 use App\Comment;
+use App\Link;
 use App\Observers\ArticleObserver;
 use App\Observers\CommentObserver;
+use App\Observers\LinkObserver;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
 
         Article::observe(ArticleObserver::class);
         Comment::observe(CommentObserver::class);
+        Link::observe(LinkObserver::class);
     }
 
     /**

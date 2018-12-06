@@ -9,6 +9,7 @@ import uploads from './modules/uploads'
 import articles from './modules/articles'
 import votes from './modules/votes'
 import comments from './modules/comments'
+import sliders from './modules/sliders'
 
 Vue.use(Vuex)
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         uploads,
         articles,
         votes,
-        comments
+        comments,
+        sliders
     }
 })
