@@ -98,7 +98,7 @@
                     excerpt: this.excerpt,
                 }).then(response => {
                     this.$message.success('发布成功')
-                    this.$router.push({name: 'Content', params: {articleId: response.data.article_id}})
+                    this.$router.push({name: 'Content', params: {userId: this.$store.state.users.me.id, articleId: response.data.article_id}})
                 }).catch(error => {
                     if (error.response.status === 422) {
                         for (let item in error.response.data.errors) {

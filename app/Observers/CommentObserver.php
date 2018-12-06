@@ -12,4 +12,9 @@ class CommentObserver
         $comment->article->increment('reply_count');
         $comment->article->update(['last_reply_user_id' => $comment->user_id]);
     }
+
+    public function deleted(Comment $comment)
+    {
+        $comment->article->decrement('reply_count');
+    }
 }
