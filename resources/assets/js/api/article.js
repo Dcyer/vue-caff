@@ -20,5 +20,8 @@ export default {
     },
     getArticles: function (params) {
         return axios.get(API_URL + 'articles?include=user', {params: params})
-    }
+    },
+    getHotArticles: function () {
+        return axios.get(API_URL + 'hot/articles')
+    },
 }

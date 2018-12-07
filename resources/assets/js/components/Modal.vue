@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="modal-qrcode">
         <transition
                 enter-active-class="animated fadeInDown"
                 leave-active-class="animated fadeOutUp"

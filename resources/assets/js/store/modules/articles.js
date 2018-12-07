@@ -19,6 +19,9 @@ export default {
         },
         getArticles({commit}, params) {
             return api.getArticles(params)
-        }
+        },
+        getHotArticles({commit}) {
+            return api.getHotArticles()
+        },
     },
 }

@@ -93,7 +93,7 @@
         <div class="replies panel panel-default list-panel replies-index">
             <div class="panel-heading">
                 <div class="total">
-                    回复数量: <b>{{ article.reply_count }}</b>
+                    回复数量: <b>{{ comments.length }}</b>
                 </div>
             </div>
             <div class="panel-body">
@@ -308,5 +308,10 @@
 
     .fade-enter, .fade-leave-to {
         opacity: 0;
+    }
+
+    .v-note-wrapper {
+        z-index: 1000;
+        height: 30px;
     }
 </style>

@@ -69,4 +69,9 @@ class ArticlesController extends Controller
 
         return $this->response->paginator($articles, new ArticleTransformer());
     }
+
+    public function hotArticlesIndex(Article $article)
+    {
+        return $this->response->collection($article->getHotArticles(), new ArticleTransformer());
+    }
 }

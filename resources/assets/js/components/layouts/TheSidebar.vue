@@ -39,8 +39,8 @@
             <div class="panel-body">
                 <ul class="list">
                     <li v-for="(article, index) in hotArticles">
-                        <router-link :to="`/articles/${article.articleId}/content`">
-                            <span v-if="index === 0">?</span>
+                        <router-link :to="`/users/${article.user_id}/articles/${article.id}/content`">
+                            <span v-if="index === 0">🏆</span>
                             <span v-else>{{ index + 1 }}.</span>
                             {{ article.title }}
                         </router-link>
@@ -115,6 +115,9 @@
             })
             this.$store.dispatch('getActivedUsers').then(response => {
                 this.activeUsers = response.data.data
+            })
+            this.$store.dispatch('getHotArticles').then(response => {
+                this.hotArticles = response.data.data
             })
         }
     }

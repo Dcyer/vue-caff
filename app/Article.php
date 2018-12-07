@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\HotArticleHelper;
 use Illuminate\Database\Eloquent\Model;
 use Jcc\LaravelVote\CanBeVoted;
 
@@ -51,7 +52,7 @@ use Jcc\LaravelVote\CanBeVoted;
  */
 class Article extends Model
 {
-    use CanBeVoted;
+    use CanBeVoted, HotArticleHelper;
 
     protected $vote = User::class;
 
