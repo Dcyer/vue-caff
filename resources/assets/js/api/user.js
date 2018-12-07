@@ -17,5 +17,8 @@ export default {
     },
     getUser: function (userId) {
         return axios.get(API_URL + 'users/' + userId)
+    },
+    getActivedUsers: function () {
+        return axios.get(API_URL + 'actived/users')
     }
 }

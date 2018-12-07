@@ -31,6 +31,9 @@ export default {
         },
         getUser({commit}, userId) {
             return api.getUser(userId)
+        },
+        getActivedUsers({commit}) {
+            return api.getActivedUsers()
         }
     },
     mutations: {

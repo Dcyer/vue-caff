@@ -23,7 +23,7 @@
             </div>
             <div class="panel-body">
                 <div class="users-label">
-                    <router-link v-for="(user, index) in activeUsers" :to="`/${user.name}`" :key="index" class="users-label-item">
+                    <router-link v-for="(user, index) in activeUsers" :to="`/users/${user.id}/articles`" :key="index" class="users-label-item">
                         <img :src="user.avatar" class="avatar-small inline-block">
                         {{ user.name }}
                     </router-link>
@@ -106,35 +106,15 @@
                 ],
                 activeUsers: [], // 活跃用户
                 hotArticles: [], // 最热文章
-                // 推荐资源
-                resources: [
-                    {
-                        title: 'Vue 官方教程',
-                        link: 'https://vuejscaff.com/v2/guide/',
-                    },
-                    {
-                        title: 'Vuex 官方教程',
-                        link: 'https://vuex.vuejs.org/zh/',
-                    },
-                    {
-                        title: 'Vue Router 官方教程',
-                        link: 'https://router.vuejs.org/zh-cn/',
-                    },
-                    {
-                        title: 'Vue Loader 官方教程',
-                        link: 'https://vue-loader.vuejs.org/zh-cn/',
-                    },
-                    {
-                        title: 'Vue 特有代码的风格指南',
-                        link: 'https://vuejscaff.com/v2/style-guide/',
-                    }
-                ],
-                links: [],
+                links: [], // 推荐资源
             }
         },
         created() {
             this.$store.dispatch('getLinks').then(response => {
                 this.links = response.data.data
+            })
+            this.$store.dispatch('getActivedUsers').then(response => {
+                this.activeUsers = response.data.data
             })
         }
     }
