@@ -28,6 +28,7 @@
 
                 <!-- 入口组件 -->
                 <div class="navbar-right">
+                    <SearchInput/>
                     <TheEntry/>
                 </div>
             </div>
@@ -38,11 +39,13 @@
 <script>
     import {mapState} from 'vuex'
     import TheEntry from './TheEntry'
+    import SearchInput from './SearchInput'
 
     export default {
         name: "TheHeader",
         components: {
             TheEntry,
+            SearchInput
         },
         data() {
             return {

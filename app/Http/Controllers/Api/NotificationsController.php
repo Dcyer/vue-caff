@@ -11,7 +11,7 @@ class NotificationsController extends Controller
     {
         $notifications = $this->user()->notifications()->paginate(20);
         $this->user()->markAsRead();
-        
+
         return $this->response->array($notifications);
     }
 }

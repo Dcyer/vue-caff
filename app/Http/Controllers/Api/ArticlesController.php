@@ -18,6 +18,15 @@ class ArticlesController extends Controller
             $query->where('category_id', $categoryId);
         }
 
+        if ($search = $request->input('search', '')) {
+            $like = '%'.$search.'%';
+            // 模糊搜索文章标题、文章摘要
+            $query->where(function ($query) use ($like) {
+                $query->where('title', 'like', $like)
+                    ->orWhere('excerpt', 'like', $like);
+            });
+        }
+
         $articles = $query->withOrder($request->order)->paginate(20);
 
         return $this->response->paginator($articles, new ArticleTransformer());

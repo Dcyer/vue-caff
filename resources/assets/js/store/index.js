@@ -10,6 +10,7 @@ import articles from './modules/articles'
 import votes from './modules/votes'
 import comments from './modules/comments'
 import sliders from './modules/sliders'
+import searchs from './modules/searchs'
 
 Vue.use(Vuex)
 
@@ -23,6 +24,7 @@ export default new Vuex.Store({
         articles,
         votes,
         comments,
-        sliders
+        sliders,
+        searchs
     }
 })

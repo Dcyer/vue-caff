@@ -62,6 +62,11 @@ const routes = [
         meta: {auth: true}
     },
     {
+        path: '/search',
+        name: 'Search',
+        component: require('../views/Search')
+    },
+    {
         path: '/users/:userId/articles',
         component: require('../views/articles/Column'),
         children: [
