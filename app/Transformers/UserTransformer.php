@@ -18,6 +18,7 @@ class UserTransformer extends TransformerAbstract
             'post_counts' => (int)$user->post_counts,
             'created_at' => $user->created_at->toDateTimeString(),
             'updated_at' => $user->updated_at->toDateTimeString(),
+            'last_actived_at' => $user->last_actived_at->diffForHumans(),
         ];
     }
 }

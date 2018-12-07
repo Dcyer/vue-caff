@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\ActiveUserHelper;
+use App\Traits\LastActivedAtHelper;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Jcc\LaravelVote\Vote;
@@ -38,10 +39,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property int $post_counts 文章数量
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePostCounts($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
+ * @property string|null $last_actived_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereLastActivedAt($value)
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, Vote, ActiveUserHelper;
+    use Notifiable, Vote, ActiveUserHelper, LastActivedAtHelper;
 
     /**
      * The attributes that are mass assignable.

@@ -24,7 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // 每隔一个小时执行一次
         $schedule->command('dcynsd:calculate-active-user')->hourly();
+        // 每日零时执行一次
+        $schedule->command('dcynsd:sync-user-actived-at')->dailyAt('00:00');
     }
 
     /**

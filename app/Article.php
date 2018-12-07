@@ -42,6 +42,12 @@ use Jcc\LaravelVote\CanBeVoted;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $voters
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article default()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article excellent()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article noreply()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article recent()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article vote()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Article withOrder($order)
  */
 class Article extends Model
 {

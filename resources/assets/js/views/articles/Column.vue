@@ -23,6 +23,11 @@
                                 <i class="text-md fa fa-list-ul"></i> 专栏文章（{{ user.post_counts }}）
                             </li>
                         </router-link>
+                        <hr>
+                        <div class="blog-name">
+                            <h4>最后活跃时间</h4>
+                            <p>{{ user.last_actived_at }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
