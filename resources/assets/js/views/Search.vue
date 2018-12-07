@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">
                 <i class="fa fa-search"></i>
-                关于 “<span class="highlight">{{ keyword }}</span>” 的搜索结果, 共 {{ results.length }} 条
+                关于 “<span class="highlight">{{ keyword }}</span>” 的搜索结果, 共 {{ pagination.total }} 条
                 <!-- 排序方式列表 -->
                 <div class="pull-right" style="margin-top:-10px">
                     <button v-for="item in filters"
@@ -49,6 +49,12 @@
                 没有任何数据~~
             </div>
         </div>
+
+        <!-- 分页组件 -->
+        <div class="panel-footer text-right remove-padding-horizontal pager-footer">
+            <Pagination :currentPage="currentPage" :total="pagination.total"
+                        :pageSize="pagination.per_page" :onPageChange="changePage"/>
+        </div>
     </div>
 </template>
 
@@ -71,13 +77,20 @@
                         icon: 'thumbs-up'
                     }
                 ],
-                results: []
+                results: [],
+                pagination: {},
+                page: 1,
             }
         },
         watch: {
             '$route'(to) {
                 this.getArticlesByKeyword(to.query.q)
             }
+        },
+        computed: {
+            currentPage() {
+                return this.page
+            },
         },
         beforeRouteEnter(to, from, next) {
             next(vm => {
@@ -104,8 +117,15 @@
                     // 需要提交事件类型，以更新搜索框的值
                     this.$store.dispatch('updateSearchValue', keyword)
 
-                    this.$store.dispatch('getArticles', {search: keyword, order: filter}).then(response => {
+                    const params = {
+                        search: keyword,
+                        order: filter,
+                        page: this.currentPage
+                    }
+
+                    this.$store.dispatch('getArticles', params).then(response => {
                         let articles = response.data.data
+                        this.pagination = response.data.meta.pagination
                         // 搜索结果
                         let results = []
 
@@ -132,6 +152,11 @@
                     })
                 }
             },
+            changePage(page) {
+                this.page = page
+                this.getArticlesByKeyword(this.keyword, this.filter)
+                window.scroll(0, 0)
+            }
         }
     }
 </script>

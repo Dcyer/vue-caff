@@ -69,10 +69,10 @@
 
             <div class="panel panel-default corner-radius">
                 <div class="panel-body text-center">
-                    <a href="mailto:summer@yousails.com" style="color:#a5a5a5">
+                    <a href="mailto:dcynsd@gmail.com" style="color:#a5a5a5">
                         <span style="margin-top: 7px;display: inline-block;">
                             <i class="fa fa-heart" style="color: rgba(232, 146, 136, 0.89);"></i>
-                            建议反馈？请私信 Summer
+                            建议反馈？请私信 Dcynsd
                         </span>
                     </a>
                 </div>
