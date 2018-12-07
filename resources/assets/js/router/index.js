@@ -77,6 +77,12 @@ const routes = [
             },
         ]
     },
+    {
+        path: '/notifications',
+        name: 'Notification',
+        component: require('../views/others/Notification'),
+        meta: {auth: true}
+    },
 ]
 
 const router = new Router({

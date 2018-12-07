@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Article;
 use App\Comment;
+use App\Notifications\ArticleComments;
 
 class CommentObserver
 {
@@ -11,6 +12,8 @@ class CommentObserver
     {
         $comment->article->increment('reply_count');
         $comment->article->update(['last_reply_user_id' => $comment->user_id]);
+
+        $comment->article->user->notify(new ArticleComments($comment));
     }
 
     public function deleted(Comment $comment)

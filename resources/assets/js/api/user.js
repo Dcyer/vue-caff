@@ -20,5 +20,8 @@ export default {
     },
     getActivedUsers: function () {
         return axios.get(API_URL + 'actived/users')
+    },
+    getNotifications: function () {
+        return axios.get(API_URL + 'notifications')
     }
 }

@@ -19,6 +19,7 @@ class UserTransformer extends TransformerAbstract
             'created_at' => $user->created_at->toDateTimeString(),
             'updated_at' => $user->updated_at->toDateTimeString(),
             'last_actived_at' => $user->last_actived_at->diffForHumans(),
+            'notification_count' => (int)$user->notification_count,
         ];
     }
 }

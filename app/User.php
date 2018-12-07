@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Auth;
 use App\Traits\ActiveUserHelper;
 use App\Traits\LastActivedAtHelper;
 use Illuminate\Notifications\Notifiable;
@@ -41,10 +42,16 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
  * @property string|null $last_actived_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereLastActivedAt($value)
+ * @property int $notification_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereNotificationCount($value)
  */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, Vote, ActiveUserHelper, LastActivedAtHelper;
+
+    use Notifiable {
+        notify as protected laravelNotify;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -87,5 +94,22 @@ class User extends Authenticatable implements JWTSubject
     public function isAuthorOf($model)
     {
         return $this->id === $model->user_id;
+    }
+
+    public function notify($instance)
+    {
+        // 如果要通知的人是当前用户，就不必通知了！
+        if ($this->id == Auth::id()) {
+            return;
+        }
+        $this->increment('notification_count');
+        $this->laravelNotify($instance);
+    }
+
+    public function markAsRead()
+    {
+        $this->notification_count = 0;
+        $this->save();
+        $this->unreadNotifications->markAsRead();
     }
 }

@@ -15,6 +15,13 @@
                 </ul>
             </li>
             <li>
+                <router-link to="/notifications" class="notifications-badge" style="margin-top: -2px;">
+                    <span :class="`badge badge-${user.notification_count > 0 ? 'hint' : 'fade'}`" title="消息提醒">
+                        {{ user.notification_count }}
+                    </span>
+                </router-link>
+            </li>
+            <li>
                 <a v-dropdown href="javascript:;">
                     <span v-if="user">
                         <img v-if="user.avatar" :src="user.avatar" class="avatar-topnav">
@@ -71,5 +78,15 @@
 </script>
 
 <style scoped>
+    .notifications-badge {
+        margin-top: -1;
+    }
 
+    .badge-fade {
+        background-color: #EBE8E8;
+    }
+
+    .badge-hint {
+        background-color: #d15b47 !important;;
+    }
 </style>

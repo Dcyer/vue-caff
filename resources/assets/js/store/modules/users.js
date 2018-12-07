@@ -34,6 +34,9 @@ export default {
         },
         getActivedUsers({commit}) {
             return api.getActivedUsers()
+        },
+        getNotifications({commit}) {
+            return api.getNotifications()
         }
     },
     mutations: {

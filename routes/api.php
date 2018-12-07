@@ -87,5 +87,9 @@ $api->version('v1', [
         $api->delete('articles/{article}/comments/{comment}', 'CommentsController@destroy')
             ->name('api.articles.comments.destroy');
 
+        // 通知
+        $api->get('notifications', 'NotificationsController@index')
+            ->name('api.notifications.index');
+
     });
 });
