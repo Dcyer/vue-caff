@@ -7,7 +7,7 @@
                         添加微信请道明来意，谢谢 <img title=":wink:" alt=":wink:" class="emoji" src="https://vuejscaffcdn.phphub.org/assets/images/emoji/wink.png" align="absmiddle">
                     </div>
 
-                    <img src="../images/contact.jpeg" alt="" width="250" style="border: 2px solid #e4e4e4;border-radius: 4px;margin-bottom: 18px;">
+                    <img src="../images/contact.png" alt="" width="250" style="border: 2px solid #e4e4e4;border-radius: 4px;margin-bottom: 18px;">
                 </div>
             </div>
         </div>
