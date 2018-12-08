@@ -16,12 +16,12 @@ trait ActiveUserHelper
      */
     protected $users = [];
 
-    protected $article_weight = 4;
-    protected $comment_weight = 1;
-    protected $pass_days = 7;
-    protected $user_number = 6;
+    protected $article_weight = 4;  // 发布文章权重
+    protected $comment_weight = 1;  // 回复文章权重
+    protected $pass_days      = 7;  // 统计的天数
+    protected $user_number    = 6;  // 返回的数量
 
-    protected $cache_key = 'dcynsd_active_users';
+    protected $cache_key               = 'dcynsd_active_users';
     protected $cache_expire_in_minutes = 65;
 
     public function getActiveUsers()

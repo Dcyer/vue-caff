@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\StatisticsHelper;
 use Auth;
 use App\Traits\ActiveUserHelper;
 use App\Traits\LastActivedAtHelper;
@@ -47,7 +48,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, Vote, ActiveUserHelper, LastActivedAtHelper;
+    use Notifiable, Vote, ActiveUserHelper, LastActivedAtHelper, StatisticsHelper;
 
     use Notifiable {
         notify as protected laravelNotify;

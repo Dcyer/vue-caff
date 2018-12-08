@@ -47,6 +47,9 @@ $api->version('v1', [
     // 热门文章
     $api->get('hot/articles', 'ArticlesController@hotArticlesIndex')
         ->name('api.host.articles.index');
+    // 统计信息
+    $api->get('statistics', 'UsersController@statistics')
+        ->name('api.users.statistics');
 
     // 需要 token 验证的接口
     $api->group(['middleware' => 'api.auth'], function($api) {

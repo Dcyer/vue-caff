@@ -73,4 +73,9 @@ class UsersController extends Controller
     {
         return $this->response->collection($user->getActiveUsers(), new UserTransformer());
     }
+
+    public function statistics(User $user)
+    {
+        return $this->response->array($user->getStatistics());
+    }
 }

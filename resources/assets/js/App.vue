@@ -21,6 +21,7 @@
         created() {
             if (this.$ls.getItem('jwt-token')) {
                 this.$store.dispatch('getMe')
+                this.$store.dispatch('getstatistics')
             }
         }
     }

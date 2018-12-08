@@ -16,6 +16,11 @@ const routes = [
         component: require('../views/auth/Login')
     },
     {
+        path: '/contact',
+        name: 'Contact',
+        component: require('../views/Contact')
+    },
+    {
         path: '/',
         name: 'Home',
         alias: '/articles',

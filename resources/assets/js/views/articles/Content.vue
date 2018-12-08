@@ -52,9 +52,16 @@
                 <img :src="user.avatar" class="img-thumbnail avatar" width="48">
             </div>
             <div>
-                <p class="text-md">如果你想学习更多前端的知识，VuejsCaff.com 是个不错的开始</p>
+                <p class="text-md">如果你想学习更多后端的知识，laravel-china.org 是个不错的开始</p>
+                <p class="text-md">如果你想学习更多前端的知识，vuejscaff.com 是个不错的开始</p>
                 <div class="payment-qrcode inline-block">
-                    <h5>扫一扫打开 VuejsCaff.com</h5>
+                    <h5>扫一扫打开 laravel-china.org</h5>
+                    <p>
+                        <qrcode-vue value="https://laravel-china.org/" :size="160"></qrcode-vue>
+                    </p>
+                </div>
+                <div class="payment-qrcode inline-block">
+                    <h5>扫一扫打开 vuejscaff.com</h5>
                     <p>
                         <qrcode-vue value="https://vuejscaff.com/" :size="160"></qrcode-vue>
                     </p>

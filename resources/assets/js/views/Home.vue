@@ -2,6 +2,10 @@
     <div>
         <!-- 帖子列表 -->
         <div class="col-md-9 topics-index main-col">
+            <div v-if="getBoxMsg()" class="box text-center site-intro rm-link-color" style="box-shadow: 0 1px 0 0 #ddd, 0 0 0 1px #ddd;">
+                {{ getBoxMsg() }}
+            </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <ul class="list-inline topic-filter">
@@ -116,6 +120,18 @@
             },
             changePage(page) {
                 this.$router.push({query: {...this.$route.query, page}})
+            },
+            getBoxMsg() {
+                let categories = this.$store.state.categories.categories
+                let desc = ''
+                if (Array.isArray(categories))  {
+                    categories.forEach((category) => {
+                        if (category.id == this.categoryId) {
+                            desc = category.description
+                        }
+                    })
+                }
+                return desc
             }
         }
     }

@@ -23,5 +23,8 @@ export default {
     },
     getNotifications: function () {
         return axios.get(API_URL + 'notifications')
+    },
+    getStatistics: function () {
+        return axios.get(API_URL + 'statistics')
     }
 }

@@ -5,6 +5,7 @@ export default {
     state: {
         me: {},
         auth: false,
+        statistics: {}
     },
     actions: {
         postUsers({commit}, params) {
@@ -37,6 +38,11 @@ export default {
         },
         getNotifications({commit}) {
             return api.getNotifications()
+        },
+        getstatistics({commit}) {
+            return api.getStatistics().then(response => {
+                commit('SET_STATISTICS', response.data)
+            })
         }
     },
     mutations: {
@@ -46,6 +52,9 @@ export default {
         },
         SET_AUTH(state, auth) {
             state.auth = auth
+        },
+        SET_STATISTICS(state, statistics) {
+            state.statistics = statistics
         }
     },
 }

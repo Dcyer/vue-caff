@@ -16,7 +16,6 @@ trait HotArticleHelper
      */
     protected $articles = [];
 
-    protected $view_weight    = 1;  // 文章查看次数权重
     protected $comment_weight = 4;  // 文章回复次数权重
     protected $pass_days      = 7;  // 统计的天数
     protected $article_number = 7;  // 返回的数量
@@ -27,7 +26,7 @@ trait HotArticleHelper
     public function getHotArticles()
     {
         // 尝试从缓存中取出 cache_key 对应的数据，如果能取到，直接返回数据
-        // 否则运行匿名函数中的代码来取出活跃用户数量，返回的同时做了缓存
+        // 否则运行匿名函数中的代码来取出热门文章，返回的同时做了缓存
         return Cache::remember($this->cache_key, $this->cache_expire_in_minutes, function () {
             return $this->calculateHotArticles();
         });
@@ -44,7 +43,6 @@ trait HotArticleHelper
     private function calculateHotArticles()
     {
         $this->calculateCommentScore();
-//        $this->calculateCommentScore();
 
         // 数组按照得分排序
         $articles = array_sort($this->articles, function ($article) {
@@ -70,21 +68,6 @@ trait HotArticleHelper
         }
 
         return $hot_articles;
-    }
-
-    private function calculateViewScore()
-    {
-        // 从文章数据表里取出限定时间范围 `$pass_days` 内，有发表过文章的用户
-        // 并且同时取出用户此段时间内发布文章的数量
-        $article_users = Article::query()->select(DB::raw('user_id, count(*) as article_count'))
-            ->where('created_at', '>=', Carbon::now()->subDays($this->pass_days))
-            ->groupBy('user_id')
-            ->get();
-
-        // 根据文章数量计算得分
-        foreach ($article_users as $value) {
-            $this->users[$value->user_id]['score'] = $value->article_count * $this->article_weight;
-        }
     }
 
     private function calculateCommentScore()
