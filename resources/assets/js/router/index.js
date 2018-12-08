@@ -97,6 +97,7 @@ const routes = [
 
 const router = new Router({
     linkExactActiveClass: 'active',
+    mode: 'history',
     // 指定滚动行为
     scrollBehavior(to, from, savedPosition) {
         if (to.hash) {
