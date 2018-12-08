@@ -85,6 +85,7 @@
         },
         beforeRouteEnter(to, from, next) {
             next(vm => {
+                vm.categoryId = to.query.categoryId == 'undefined' ? 0 : to.query.categoryId
                 vm.setDataByFilter(to.query.filter)
             })
         },
@@ -98,9 +99,6 @@
                 this.categoryId = to.query.categoryId == 'undefined' ? 0 : to.query.categoryId
                 this.setDataByFilter(to.query.filter)
             }
-        },
-        created() {
-            this.getArticles(this.filter)
         },
         methods: {
             getArticles(filter) {

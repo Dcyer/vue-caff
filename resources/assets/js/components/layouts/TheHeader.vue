@@ -68,6 +68,11 @@
             categories: state => state.categories.categories
         }),
         created() {
+            if (this.$route.query.categoryId == 'undefined') {
+                this.activeCategoryIndex = 'all'
+            } else {
+                this.activeCategoryIndex = this.$route.query.categoryId - 1
+            }
             this.$store.dispatch('getCategories')
         },
         methods: {
