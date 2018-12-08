@@ -27,7 +27,7 @@ class ImageUploadHandler
         $file_path = Storage::disk('upyun')->put($folder_name, $file);
 
         return [
-            'path' => 'http://' . config('filesystems.disks.upyun.domain') . "/$file_path",
+            'path' => $file_path,
         ];
     }
 }

@@ -113,4 +113,9 @@ class User extends Authenticatable implements JWTSubject
         $this->save();
         $this->unreadNotifications->markAsRead();
     }
+
+    public function getAvatarAttribute($value)
+    {
+        return 'http://' . config('filesystems.disks.upyun.domain') . "/$value";
+    }
 }

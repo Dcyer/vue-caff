@@ -8,6 +8,7 @@
         "php": ">=7.0.0",
         "awssat/laravel-visits": "^1.4",
         "dingo/api": "^2.0.0-alpha2",
+        "encore/laravel-admin": "1.6.0",
         "fideloper/proxy": "~3.3",
         "gregwar/captcha": "^1.1",
         "jcc/laravel-vote": "^1.1",
@@ -19,6 +20,7 @@
         "tymon/jwt-auth": "1.0.0-rc.2"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.2",
         "barryvdh/laravel-ide-helper": "^2.5",
         "doctrine/dbal": " ~2.3",
         "filp/whoops": "~2.0",

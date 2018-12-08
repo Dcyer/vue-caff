@@ -23,6 +23,6 @@ class UploadsController extends Controller
     {
         $result = $uploader->save($request->file, 'article_images');
         
-        return $this->response->array(['path' => $result['path']]);
+        return $this->response->array(['path' => 'http://' . config('filesystems.disks.upyun.domain') . "/" . $result['path']]);
     }
 }
